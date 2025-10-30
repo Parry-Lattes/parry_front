@@ -33,7 +33,7 @@ class Login extends StatelessWidget{
                     ),
                   ),
                   TextButton(
-                    onPressed: (){}, 
+                    onPressed: (){Navigator.pushNamed(contexto, '/sla_porra');}, 
                     child: Text('Entrar'),
                   )
                 ],

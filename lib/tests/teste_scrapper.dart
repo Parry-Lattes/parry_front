@@ -1,5 +1,12 @@
-import 'package:parry_front/core/scrapper/scrapper.dart';
+import 'package:parry_front/core/scrapper/parsers/parser_pdf.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 void main() {
-  scrap('eai doido');
+  test_parser();
+}
+
+void test_parser() async {
+  final parser = ParserPdf();
+  parser.load('./assets/hello.pdf');
+  print(PdfTextExtractor(parser.document!).extractText());
 }

@@ -1,3 +1,6 @@
-void scrap(String texto) {
-  print(texto);
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
+
+class Scrapper {
+  
 }
