@@ -1,6 +1,7 @@
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
+import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 
 class Scrapper {
+  Extractor? extractor;
+
   
 }
