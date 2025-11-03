@@ -64,6 +64,7 @@ flutter:
   assets:
     - assets/
     - assets/imagens/
+    - assets/texts/
     - assets/testes_html/
 
   # To add assets to your application, add an assets section, like this:

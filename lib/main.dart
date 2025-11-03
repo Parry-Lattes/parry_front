@@ -4,7 +4,19 @@ import 'package:parry_front/ui/screen_pdf_scrapper.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
-    theme: ThemeData.dark(),
+    theme: ThemeData(
+      colorScheme: ColorScheme(
+        brightness: Brightness.dark,
+        primary: Color.fromRGBO(245, 245, 245, 1),
+        secondary: Color.fromRGBO(39,29,44,1),
+        error: Color.fromRGBO(224,31,63,1),
+        surface: Color.fromRGBO(123,105,96,1),
+        onError: Color.fromRGBO(255,255,255,1),
+        onPrimary: Color.fromRGBO(245, 245, 245, 1),
+        onSecondary: Color.fromRGBO(39,29,44,1),
+        onSurface: Color.fromRGBO(245, 245, 245, 1)
+      ),
+    ),
     home: Login(),
     routes: <String, WidgetBuilder> {
       '/sla_porra': (BuildContext c) => PDFScrapperUI(),
