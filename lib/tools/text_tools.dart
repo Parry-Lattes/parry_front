@@ -31,3 +31,8 @@ String remove_points_chars(final String text) {
 
   return result;
 }
+
+String remove_letters(String text) {
+
+  return text.replaceAll(RegExp(r'[a-zA-Z]'), '');
+}

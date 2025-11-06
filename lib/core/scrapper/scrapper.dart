@@ -1,4 +1,5 @@
 import 'package:parry_front/core/exceptions/id_not_found.dart';
+import 'package:parry_front/core/exceptions/last_update_not_found.dart';
 import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 import 'package:parry_front/tools/text_tools.dart';
@@ -37,6 +38,31 @@ class Scrapper {
     return -1;
   }
 
+  String _search_last_update(final StructLattes struct) {
+    final lines = struct.search_lines('última atualização');
+
+    //agora, basta usar regexp
+    final regex = RegExp(r'\b\d{1,2}/\d{1,2}/\d{4}\b');
+    
+
+    for(var l in lines) {
+      //buscamos saber se a linha possui a expressao regular
+      final result = regex.firstMatch(l);
+
+      //se sim, vamos tentar retornar ela
+      if(result != null) {
+        try{
+          return result.group(0)!;
+        } catch (e) {
+          continue;
+        }
+        
+      }
+    }
+
+    return '';
+  }
+
   Curriculum scrapping(StructLattes struct) {
 
     //primeiro, tentamos obter o id lattes
@@ -46,11 +72,14 @@ class Scrapper {
       throw IDNotFound();
     }
 
-    
+    final last_update = _search_last_update(struct);
+    if(last_update == '') {
+      throw LastUpdateNotFound();
+    }
 
     return Curriculum(
-      _search_id_lattes(struct),
-      'last_update',
+      id_lattes,
+      last_update,
       []
     );
   }

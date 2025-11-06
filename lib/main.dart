@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:parry_front/ui/app.dart';
 
 void main(List<String> args) {
+  Intl.defaultLocale = 'pt_BR';
   runApp(App());
 }
 
