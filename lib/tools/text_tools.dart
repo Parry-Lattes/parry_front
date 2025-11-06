@@ -21,3 +21,13 @@ String clean_spaces(String text) {
 
   return text_clean;
 }
+
+String remove_points_chars(final String text) {
+  const special_chars = [',','.',':',';'];
+  String result = text;
+  for(final c in special_chars) {
+    result = result.replaceAll(c, '');
+  }
+
+  return result;
+}

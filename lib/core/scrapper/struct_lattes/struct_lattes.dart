@@ -24,12 +24,13 @@ class StructLattes {
     _lines.add(title);
   }
 
-  List<String> search_lines(String by_text,{bool only_title = false}) {
+  //funcao essencial para o scrapper
+  List<String> search_lines(final String by_text,{bool only_title = false}) {
     final List<String> result = List.empty(growable: true);
 
     for(final l in _lines) {
       //verifica se a linha contem o texto buscado
-      if(l.text.contains(by_text)) {
+      if(l.text.toLowerCase().contains(by_text)) {
         //se contiver, verifica ha filtro de titulos
         if(only_title && l is! Title) {
           continue;
