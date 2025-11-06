@@ -103,11 +103,15 @@ class PDFExtractor implements Extractor{
   }
 
   String _is_title(final String text) {
+    //para saber se o texto e um titulo, crio uma versao dele sem espacos em branco
     final text_clean = clean_spaces(text);
 
+    //crio tambem uma versao em lower case
     final text_lower = text.toLowerCase();
+    //e outra sem espacos e lower case
     final text_lower_clean = text_clean.toLowerCase();
 
+    //agora, comparo ambas as versoes com cada um dos titulos possiveis
     for(final title in titles) {
       if(title == text_lower) {
         return text_lower;

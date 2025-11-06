@@ -26,6 +26,7 @@ class StructLattes {
     lines.add(title);
   }
 
+  //isso aqui e so para testar, espero que nao esteja no codigo final
   void sprint() {
     String text = '';
     final file = File('./assets/text.txt');

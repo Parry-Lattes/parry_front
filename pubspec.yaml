@@ -38,6 +38,7 @@ dependencies:
   html: ^0.15.6
   pdf: ^3.11.3
   syncfusion_flutter_pdf: ^31.2.4
+  file_picker: ^10.3.3
 
 dev_dependencies:
   flutter_test:
