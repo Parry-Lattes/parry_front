@@ -7,9 +7,11 @@ void main() {
 void test_parser() async {
   final extractor = PDFExtractor();
   extractor.load('./assets/testes_pdf/lattes_jc.pdf');
-  final text = extractor.extract_data();
+  final sla = extractor.extract_data();
 
-  text.sprint();
+  for(final s in sla.lines) {
+    print(s);
+  }
 }
 
 void test_pdf() {

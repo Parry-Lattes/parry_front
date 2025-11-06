@@ -6,11 +6,13 @@ import 'package:parry_front/tools/text_tools.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class PDFExtractor implements Extractor{
-  PdfDocument? document;
-  PdfTextExtractor? extrator;
+  late PdfDocument document;
+  late PdfTextExtractor extrator;
   List<String> titles = List.empty();
 
   PDFExtractor() {
+    document = PdfDocument();
+    extrator = PdfTextExtractor(document);
     _load_titles();
   }
 
@@ -22,14 +24,14 @@ class PDFExtractor implements Extractor{
   @override
   Future load(Object path) async {
     document = PdfDocument(inputBytes: File(path.toString()).readAsBytesSync());
-    extrator = PdfTextExtractor(document!);
+    extrator = PdfTextExtractor(document);
   }
 
   @override
   StructLattes extract_data() {
     StructLattes struct = StructLattes();
 
-    for(int i = 0; i<document!.pages.count; i++) {
+    for(int i = 0; i<document.pages.count; i++) {
       //percorro cada pagina, e organizo as linhas
       //pagina por pagina
       final page_lines = _organize_line(i);
@@ -52,7 +54,7 @@ class PDFExtractor implements Extractor{
   }
 
   List<String> _organize_line(final int page_index) {
-    final page_lines = extrator!.extractTextLines(startPageIndex: page_index,endPageIndex: page_index);
+    final page_lines = extrator.extractTextLines(startPageIndex: page_index,endPageIndex: page_index);
     List<String> lines_text = List.empty(growable: true);
     List<double> lines_positions = List.empty(growable: true);
 

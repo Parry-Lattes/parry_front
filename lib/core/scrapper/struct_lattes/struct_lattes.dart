@@ -1,39 +1,48 @@
-import 'dart:io';
-
 import 'package:parry_front/core/scrapper/struct_lattes/line.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/title.dart';
 
 class StructLattes {
-  List<Line> lines = List.empty(growable: true);
+  final List<Line> _lines = List.empty(growable: true);
 
   void add_line(String text,{int? position}) {
     final line = Line(text);
     if(position != null) {
-      lines.insert(position, line);
+      _lines.insert(position, line);
       return;
     }
 
-    lines.add(line);
+    _lines.add(line);
   }
 
   void add_title(String text,{int? position}) {
     final title = Title(text);
     if(position != null) {
-      lines.insert(position, title);
+      _lines.insert(position, title);
       return;
     }
 
-    lines.add(title);
+    _lines.add(title);
   }
 
-  //isso aqui e so para testar, espero que nao esteja no codigo final
-  void sprint() {
-    String text = '';
-    final file = File('./assets/text.txt');
-    for (final line in lines) {
-      text += '${line.text}\n';
+  List<String> search_lines(String by_text,{bool only_title = false}) {
+    final List<String> result = List.empty(growable: true);
+
+    for(final l in _lines) {
+      //verifica se a linha contem o texto buscado
+      if(l.text.contains(by_text)) {
+        //se contiver, verifica ha filtro de titulos
+        if(only_title && l is! Title) {
+          continue;
+        }
+
+        result.add(l.text);
+      }
     }
 
-    file.writeAsString(text);
+    return result;
+  }
+
+  List<Line> get lines {
+    return _lines.sublist(0);
   }
 }

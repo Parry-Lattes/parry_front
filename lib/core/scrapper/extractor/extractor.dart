@@ -4,5 +4,5 @@ import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 
 class Extractor {
   Future load(Object o){return Future((){});}
-  StructLattes? extract_data() {return null;}
+  StructLattes extract_data() {return StructLattes();}
 }
