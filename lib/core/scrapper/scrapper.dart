@@ -152,8 +152,7 @@ class Scrapper {
     return 'Brasil';
   }
 
-  Production? _scrapping_production(String text_production) {
-    print(text_production);
+  Production? _scrapping_production(String text_production, String type_producition) {
     return null;
   }
 
@@ -161,6 +160,7 @@ class Scrapper {
     final List<Production> list_productions = List.empty(growable: true);
     final regex = RegExp(r'^\d+\.$');
     String text_production = '';
+    String type_production = 'Outro';
     bool finalize = false;
 
     int counter = 0;//essa variavel vai ser util para contar as producoes
@@ -168,11 +168,23 @@ class Scrapper {
       for(final line in struct.range_lines(i)) {
         if(line is Title && !line.text.contains('produç')) {
           finalize = true;
-          final production = _scrapping_production(text_production);
+          final production = _scrapping_production(text_production.trim(),type_production);
           if(production != null) {
             list_productions.add(production);
           }
           break;
+        } else if(line is Title) {
+
+          //aqui vamos verificar o tipo de producao
+          //esse codigo e bem passivel de erros
+          final text_ = clean_spaces(line.text).toLowerCase();
+          if(text_.contains('bibliográfica')) {
+            type_production = 'Bibliográfica';
+          } else if(text_.contains('técnica')) {
+            type_production = 'Técnica';
+          } else {
+            type_production = 'Outro';
+          }
         }
 
         //em minhas observações, toda producao e precedida de uma numeracao
@@ -188,17 +200,16 @@ class Scrapper {
 
           //agora que eu encontrei um numero que indica que ha uma producao, vou pegar as proximas linhas ate o proximo numero
           //entao, eu mando o texto da producao atual para a lista de producoes, apos procesar claro
-          final production = _scrapping_production(text_production.trim());
+          final production = _scrapping_production(text_production.trim(),type_production);
           if(production != null) {
             list_productions.add(production);
           }
 
           //a partir da proxima linha, ele vai capturar os textos novamente
           text_production = '';
-          print('$number_production:');
+          print('$number_production.');
           continue;
         }
-
         text_production += '${line.text} ';
       }
 
