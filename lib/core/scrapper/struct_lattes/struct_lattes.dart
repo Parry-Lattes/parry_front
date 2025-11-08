@@ -25,10 +25,20 @@ class StructLattes {
   }
 
   //funcao essencial para o scrapper
-  List<String> search_lines(final String by_text,{bool only_title = false}) {
-    final List<String> result = List.empty(growable: true);
+  List<(int,String)> search_lines(final String by_text,{bool only_title = false,int start = 0,int? end}) {
+    final List<(int,String)> result = List.empty(growable: true);
+    int count = -1;
+    var list = _lines;
 
-    for(final l in _lines) {
+    if(end != null) {
+      list = _lines.sublist(start,end);
+    } else if(start > 0) {
+      list = _lines.sublist(start);
+    }
+
+    for(final l in list) {
+      count++;
+      
       //verifica se a linha contem o texto buscado
       if(l.text.toLowerCase().contains(by_text)) {
         //se contiver, verifica ha filtro de titulos
@@ -36,11 +46,19 @@ class StructLattes {
           continue;
         }
 
-        result.add(l.text);
+        result.add((count,l.text));
       }
     }
 
     return result;
+  }
+
+  List<Line> range_lines(int start, [int end = -1]) {
+    if (end < 0) {
+      return _lines.sublist(start);
+    }
+
+    return _lines.sublist(start,end);
   }
 
   List<Line> get lines {

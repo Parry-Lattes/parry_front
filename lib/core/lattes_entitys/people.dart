@@ -4,13 +4,13 @@ class People extends LattesEntity{
   People(
     String name,
     int id_lattes,
-    bool sex,
+    List<String> abbreviations,
     String nationality
   ) {
     attributes = {
       'nome': name,
       'id_lattes': id_lattes,
-      'sexo': sex,
+      'abreviaturas': abbreviations,
       'nacionalidade': nationality
     };
   }

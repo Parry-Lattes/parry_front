@@ -7,12 +7,12 @@ void main() {
 }
 
 void test_scrapping() {
-  final struct = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_kazuo.pdf');
+  final struct = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_marcela.pdf');
 
-  final scrapper = Scrapper();
+  final scrapper = Scrapper(struct);
   try {
-   final curriculo = scrapper.scrapping(struct);
-   print(curriculo.json);
+   final (curriculo,people) = scrapper.scrapping();
+   print('${curriculo.json}, ${people.json}');
   } catch (e) {
     print(e);
   }
