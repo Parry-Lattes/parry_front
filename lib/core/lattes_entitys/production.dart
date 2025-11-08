@@ -3,6 +3,7 @@ import 'package:parry_front/core/lattes_entitys/lattes_entity.dart';
 class Production extends LattesEntity {
   Production(
     String autor,
+    List<String> coautores,
     String title,
     String description,
     String link,
@@ -12,6 +13,7 @@ class Production extends LattesEntity {
   ) {
     attributes = {
       'autor': autor,
+      'coautores': coautores,
       'titulo': title,
       'descricao': description,
       'link': link,

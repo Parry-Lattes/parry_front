@@ -3,7 +3,9 @@ import 'package:parry_front/core/exceptions/last_update_not_found.dart';
 import 'package:parry_front/core/exceptions/name_not_found.dart';
 import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/core/lattes_entitys/people.dart';
+import 'package:parry_front/core/lattes_entitys/production.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
+import 'package:parry_front/core/scrapper/struct_lattes/title.dart';
 import 'package:parry_front/tools/text_tools.dart';
 
 class Scrapper {
@@ -150,6 +152,64 @@ class Scrapper {
     return 'Brasil';
   }
 
+  Production? _scrapping_production(String text_production) {
+    print(text_production);
+    return null;
+  }
+
+  List<Production> _search_productions() {
+    final List<Production> list_productions = List.empty(growable: true);
+    final regex = RegExp(r'^\d+\.$');
+    String text_production = '';
+    bool finalize = false;
+
+    int counter = 0;//essa variavel vai ser util para contar as producoes
+    for(final (i,_) in struct.search_lines('produções',only_title: true)) {
+      for(final line in struct.range_lines(i)) {
+        if(line is Title && !line.text.contains('produç')) {
+          finalize = true;
+          final production = _scrapping_production(text_production);
+          if(production != null) {
+            list_productions.add(production);
+          }
+          break;
+        }
+
+        //em minhas observações, toda producao e precedida de uma numeracao
+        if(regex.hasMatch(clean_spaces(line.text))) {
+          //as proximas 3 linhas parecem estranhas, mas acontece que, como eu estou procurando por numeracoes seguidas de pontos
+          //pode ser que um ano seguido de um ponto seja confundido com uma das numeracoes.
+          //por esse motivo, eu testo se o numero e maior que o proximo da lista, se for, eu apenas continuo procurando
+          //se nao for, eu atribuo o valor a counter. Por isso counter e importante
+          //isso certamente pode gerar grandes problemas, mas eu vou fazer o que?
+          final number_production = int.tryParse(clean_spaces(remove_points_chars(line.text)))!;
+          if(number_production > counter+1) {continue;}
+          counter = number_production;
+
+          //agora que eu encontrei um numero que indica que ha uma producao, vou pegar as proximas linhas ate o proximo numero
+          //entao, eu mando o texto da producao atual para a lista de producoes, apos procesar claro
+          final production = _scrapping_production(text_production.trim());
+          if(production != null) {
+            list_productions.add(production);
+          }
+
+          //a partir da proxima linha, ele vai capturar os textos novamente
+          text_production = '';
+          print('$number_production:');
+          continue;
+        }
+
+        text_production += '${line.text} ';
+      }
+
+      if(finalize) {
+        break;
+      }
+    }
+
+    return list_productions;
+  }
+
   (Curriculum,People) scrapping() {
 
     //primeiro, tentamos obter o id lattes
@@ -177,11 +237,14 @@ class Scrapper {
     //buscando pela nacionalidade
     final nacionality = _search_nacionality();
 
+    //e finalmente, coleto as producoes
+    final productions = _search_productions();
+
     return (
       Curriculum(
         id_lattes,
         last_update,
-        []
+        productions
       ),
       People(
         name, 
