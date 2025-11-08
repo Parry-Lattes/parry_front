@@ -7,7 +7,7 @@ void main() {
 }
 
 void test_scrapping() {
-  final struct = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_marcela.pdf');
+  final struct = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_random.pdf');
 
   final scrapper = Scrapper(struct);
   try {

@@ -89,10 +89,10 @@ class Scrapper {
     String concat_lines = '';
 
     for(final l in lines) {
-      concat_lines += l.text.replaceAll('\n', ' ');
+      concat_lines += '${l.text.replaceAll('\n', ' ')} ';
     }
 
-    return concat_lines.split(';');
+    return concat_lines.trim().split(';');
   }
 
   List<String> _search_abbreviations() {
