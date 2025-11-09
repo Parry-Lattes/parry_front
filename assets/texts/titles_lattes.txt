@@ -1,104 +1,19 @@
 Identificação
-Bancas
 Endereço
 Licença Maternidade, Paternidade e Adoção
 Idiomas
 Prêmios e títulos
 Texto inicial do Currículo Lattes
 Outras informações relevantes
-Formação acadêmica/titulação
-Pós-doutorado e/ou livre-docência
-Formação complementar
-Atuação profissional
-Linhas de pesquisa
-Membro de corpo editorial
-Membro de comitê de assessoramento
-Revisor de periódico
-Revisor de projeto de agência de fomento
-Áreas de atuação
-Projetos de pesquisa
-Projeto de desenvolvimento tecnológico
-Projeto de extensão
-Projeto de ensino
-Outros tipos de projetos
-Artigos completos publicados em periódicos
-Artigos aceitos para publicação
-Livros e capítulos
-Texto em jornal ou revista (magazine)
-Trabalhos publicados em anais de eventos
-Apresentação de trabalho e palestra
-Partitura musical
-Tradução
-Prefácio, posfácio
-Outra produção bibliográfica
-Assessoria e consultoria
-Extensão tecnológica
-Programa de computador sem registro
-Produtos
-Processos ou técnicas
-Trabalhos técnicos
-Cartas, mapas ou similares
-Curso de curta duração ministrado
-Desenvolvimento de material didático ou instrucional
-Editoração
-Manutenção de obra artística
-Maquete
-Entrevistas, mesas redondas, programas e comentários na mídia
-Relatório de pesquisa
-Redes sociais, websites e blogs
-Outra produção técnica
-Artes cênicas
-Música
-Artes visuais
-Outra produção artística/cultural
-Patente
-Programa de Computador Registrado
-Cultivar protegida
-Cultivar registrada
-Desenho industrial registrado
-Marca registrada
-Topografia de circuito integrado registrada
-Patente
-Programa de Computador Registrado
-Cultivar protegida
-Cultivar registrada
-Desenho industrial registrado
-Marca registrada
-Topografia de circuito integrado registrada
-Programa de computador sem registro
-Produtos
-Processos ou técnicas
-Projetos de pesquisa
-Projeto de desenvolvimento tecnológico
-Projeto de extensão
-Projeto de ensino
-Outros projetos
-Artigos completos publicados em periódicos
-Artigos aceitos para publicação
-Livros e capítulos
-Texto em jornal ou revista (magazine)
-Trabalhos publicados em anais de eventos
-Apresentação de trabalho e palestra
-Programa de computador sem registro
-Curso de curta duração ministrado
-Desenvolvimento de material didático ou instrucional
-Entrevistas, mesas redondas, programas e comentários na mídia
-Programa de Computador Registrado
-Organização de eventos, congressos, exposições, feiras e olimpíadas
-Participação em eventos, congressos, exposições, feiras e olimpíadas
-Redes sociais, websites e blogs
-Artes visuais
-Artes cênicas
-Música
-Outra produção bibliográfica
-Outra produção técnica
-Outra produção artística/cultural
-Citações no ISI
-Citações no SciELO
-Citações no SCOPUS
-Citações no Google Scholar
-Citações em outra base bibliográfica
+Dados gerais
+Formação
+Atuação
+Projetos
 Produções
+Patentes e Registros
+Inovação
+Educação e Popularização de C&T
+Eventos Orientações Bancas Citações
 Produção Bibliográfica
 Produção Técnica
 Outra produção artística/cultural

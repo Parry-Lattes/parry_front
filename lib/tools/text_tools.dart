@@ -32,7 +32,10 @@ String remove_points_chars(final String text) {
   return result;
 }
 
-String remove_letters(String text) {
+bool is_letter(String text) {
+  return RegExp(r'^[a-zA-ZáàâãäéèêëíìîïóòôõöúùûüñçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÑÇ]$').hasMatch(text);
+}
 
-  return text.replaceAll(RegExp(r'[a-zA-Z]'), '');
+bool is_algarism(String text) {
+  return RegExp(r'^[0-9]$').hasMatch(text);
 }

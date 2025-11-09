@@ -5,8 +5,6 @@ class Production extends LattesEntity {
     String autor,
     List<String> coautores,
     String title,
-    String description,
-    String link,
     String date_pub,
     String type,
     String hash
@@ -15,8 +13,6 @@ class Production extends LattesEntity {
       'autor': autor,
       'coautores': coautores,
       'titulo': title,
-      'descricao': description,
-      'link': link,
       'data_de_publicacao': date_pub,
       'tipo_s': type,
       'hash': hash

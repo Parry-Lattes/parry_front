@@ -4,9 +4,12 @@ import 'package:parry_front/core/exceptions/name_not_found.dart';
 import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/core/lattes_entitys/people.dart';
 import 'package:parry_front/core/lattes_entitys/production.dart';
+import 'package:parry_front/core/scrapper/lexer/lexer.dart';
+import 'package:parry_front/core/scrapper/parser_production.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/title.dart';
 import 'package:parry_front/tools/text_tools.dart';
+import 'package:quiver/core.dart';
 
 class Scrapper {
   final StructLattes struct;
@@ -153,7 +156,33 @@ class Scrapper {
   }
 
   Production? _scrapping_production(String text_production, String type_producition) {
-    return null;
+    //print(text_production);
+    final lexer = Lexer(text: text_production);
+    final parser = ParserProduction(tokens: lexer.tokenize());
+
+    final informations = parser.parse();
+
+    final title = informations.title;
+    final autor = informations.autor;
+    final coautores = informations.coautores;
+    final data_pub = informations.date_pub;
+
+    //agora, umas verificacoes
+    if(title == '') {return null;}
+    if(autor == '') {return null;}
+    if(data_pub == '') {return null;}
+
+    coautores.sort();
+
+    final hash = hashObjects([
+      autor,
+      coautores,
+      title,
+      data_pub,
+      type_producition
+    ]);
+
+    return Production(autor, coautores, title, data_pub, type_producition, '$hash');
   }
 
   List<Production> _search_productions() {
@@ -196,6 +225,7 @@ class Scrapper {
           //isso certamente pode gerar grandes problemas, mas eu vou fazer o que?
           final number_production = int.tryParse(clean_spaces(remove_points_chars(line.text)))!;
           if(number_production > counter+1) {continue;}
+
           counter = number_production;
 
           //agora que eu encontrei um numero que indica que ha uma producao, vou pegar as proximas linhas ate o proximo numero
@@ -207,7 +237,6 @@ class Scrapper {
 
           //a partir da proxima linha, ele vai capturar os textos novamente
           text_production = '';
-          print('$number_production.');
           continue;
         }
         text_production += '${line.text} ';
