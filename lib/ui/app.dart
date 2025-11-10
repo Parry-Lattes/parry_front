@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/screen_login.dart';
+import 'package:parry_front/ui/screen_pdf_view.dart';
 
 import 'rail_app.dart';
 
@@ -27,7 +28,20 @@ class App extends StatelessWidget{
       routes: <String, WidgetBuilder> {
         '/login': (BuildContext c) => Login(),
         '/app': (BuildContext c) => RailApp(),
-      }
+      },
+      onGenerateRoute: (settings) {
+        final arguments = settings.arguments as Map<String,dynamic>;
+        switch(settings.name) {
+          case '/pdf_view':
+            return MaterialPageRoute<bool>(
+              builder: (context) {
+                return ScreenPdfView(pdf_path: arguments['pdf_path']);
+              }
+            );
+        }
+
+        return null;
+      },
     );
   
   }

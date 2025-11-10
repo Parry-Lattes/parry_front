@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RapporteurGenerator extends StatelessWidget{
-  RapporteurGenerator({super.key});
+  const RapporteurGenerator({super.key});
 
   @override
   Widget build(BuildContext context) {
