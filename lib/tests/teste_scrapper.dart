@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:parry_front/core/scrapper/extracting_structure.dart';
 import 'package:parry_front/core/scrapper/extractor/pdf_extractor.dart';
@@ -11,7 +12,7 @@ void main() {
 }
 
 void test_scrapping() async {
-  final extractor = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_random.pdf');
+  final extractor = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_marcela.pdf');
   final struct = extractor!.extract_data();
 
   final scrapper = Scrapper(struct);
@@ -29,12 +30,16 @@ void test_scrapping() async {
 
 void test_extract_pdf() async {
   final extractor = PDFExtractor();
-  extractor.load('./assets/testes_pdf/lattes_jc.pdf');
+  extractor.load('./assets/testes_pdf/lattes_kazuo.pdf');
   final sla = extractor.extract_data();
+  final file = File('./assets/lattes.text');
+  String str = '';
 
   for(final s in sla.lines) {
-    print(s);
+    str += '${s.text}\n';
   }
+
+  file.writeAsStringSync(str);
 }
 
 void test_pdf() {

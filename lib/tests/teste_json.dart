@@ -7,9 +7,9 @@ void main(List<String> args) {
 
 void experimentar_entidades() {
   List<Production> producoes = [
-    Production('autor1',[], 'title1', 'date_pub1', 'type1', 'hash1'),
-    Production('autor2',[], 'title2', 'date_pub2', 'type2', 'hash2'),
-    Production('autor3',[], 'title3', 'date_pub3', 'type3', 'hash3'),
+    Production('autor1',[], 'title1', 'date_pub1', TypeProduction.other, 'hash1'),
+    Production('autor2',[], 'title2', 'date_pub2', TypeProduction.other, 'hash2'),
+    Production('autor3',[], 'title3', 'date_pub3', TypeProduction.other, 'hash3'),
   ];
 
   Curriculum c = Curriculum(784334736, 'last_update', producoes);

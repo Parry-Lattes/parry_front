@@ -36,7 +36,6 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
             style: BorderStyle.solid
           ),
           value: _aproved[i],
-          enabled: _aproved[i],
           title: TextButton( //damos a possibilidade de ele abrir o pdf para verificar a selecao
             onPressed: () {
               Navigator.pushNamed<bool>(

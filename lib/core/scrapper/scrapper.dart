@@ -155,7 +155,18 @@ class Scrapper {
     return 'Brasil';
   }
 
-  Production? _scrapping_production(String text_production, String type_producition) {
+  String _search_patent_registrer(String text) {
+    // Regex para o formato BR + 12 números + hífen + 1 número
+    final regex = RegExp(r'BR\d{12}-\d');
+    
+    // Procura pela primeira ocorrência do padrão no texto
+    final match = regex.firstMatch(text);
+    
+    // Se encontrou, retorna o texto correspondente, senão retorna string vazia
+    return match?.group(0) ?? '';
+  }
+
+  Production? _scrapping_production(String text_production, TypeProduction type_producition) {
     //print(text_production);
     final lexer = Lexer(text: text_production);
     final parser = ParserProduction(tokens: lexer.tokenize());
@@ -174,13 +185,19 @@ class Scrapper {
 
     coautores.sort();
 
-    final hash = hashObjects([
+    final hash = type_producition == TypeProduction.patent
+      ? _search_patent_registrer(text_production)
+      :hashObjects([
       autor,
       coautores,
       title,
       data_pub,
       type_producition
     ]);
+
+    if(hash == '') {
+      return null;
+    }
 
     return Production(autor, coautores, title, data_pub, type_producition, '$hash');
   }
@@ -189,14 +206,14 @@ class Scrapper {
     final List<Production> list_productions = List.empty(growable: true);
     final regex = RegExp(r'^\d+\.$');
     String text_production = '';
-    String type_production = 'Outro';
-    bool finalize = false;
+    TypeProduction type_production = TypeProduction.other;
 
     int counter = 0;//essa variavel vai ser util para contar as producoes
     for(final (i,_) in struct.search_lines('produções',only_title: true)) {
       for(final line in struct.range_lines(i)) {
         if(line is Title && !line.text.contains('produç')) {
-          finalize = true;
+          //caso a linha seja um titulo, verificamos se ela nao indica o tipo de producao, ou se e uma patente
+          //se nao, significa que e um titulo de outra natureza, e assim, finalizamos a busca por producoes
           final production = _scrapping_production(text_production.trim(),type_production);
           if(production != null) {
             list_productions.add(production);
@@ -208,11 +225,13 @@ class Scrapper {
           //esse codigo e bem passivel de erros
           final text_ = clean_spaces(line.text).toLowerCase();
           if(text_.contains('bibliográfica')) {
-            type_production = 'Bibliográfica';
+            type_production = TypeProduction.bibliographic;
           } else if(text_.contains('técnica')) {
-            type_production = 'Técnica';
+            type_production = TypeProduction.technique;
+          } else if(text_.contains('patente')) {
+            type_production = TypeProduction.patent;
           } else {
-            type_production = 'Outro';
+            type_production = TypeProduction.other;
           }
         }
 
@@ -241,9 +260,46 @@ class Scrapper {
         }
         text_production += '${line.text} ';
       }
+    }
 
-      if(finalize) {
-        break;
+    //agora, vamos fazer a mesma coisa para as patentes
+    //eu ate poderia modularizar esse codigo, mas eu estou com preguica :)
+    text_production = '';
+    type_production = TypeProduction.patent;
+    for(final (i,_) in struct.search_lines('patentes',only_title: true)) {
+      for(final line in struct.range_lines(i)) {
+        if (line is Title && !line.text.contains('patente')) {
+            final production = _scrapping_production(text_production.trim(),type_production);
+            if(production != null) {
+              list_productions.add(production);
+            }
+          break;
+        }
+
+        //em minhas observações, toda producao e precedida de uma numeracao
+        if(regex.hasMatch(clean_spaces(line.text))) {
+          //as proximas 3 linhas parecem estranhas, mas acontece que, como eu estou procurando por numeracoes seguidas de pontos
+          //pode ser que um ano seguido de um ponto seja confundido com uma das numeracoes.
+          //por esse motivo, eu testo se o numero e maior que o proximo da lista, se for, eu apenas continuo procurando
+          //se nao for, eu atribuo o valor a counter. Por isso counter e importante
+          //isso certamente pode gerar grandes problemas, mas eu vou fazer o que?
+          final number_production = int.tryParse(clean_spaces(remove_points_chars(line.text)))!;
+          if(number_production > counter+1) {continue;}
+
+          counter = number_production;
+
+          //agora que eu encontrei um numero que indica que ha uma producao, vou pegar as proximas linhas ate o proximo numero
+          //entao, eu mando o texto da producao atual para a lista de producoes, apos procesar claro
+          final production = _scrapping_production(text_production.trim(),type_production);
+          if(production != null) {
+            list_productions.add(production);
+          }
+
+          //a partir da proxima linha, ele vai capturar os textos novamente
+          text_production = '';
+          continue;
+        }
+        text_production += '${line.text} ';
       }
     }
 

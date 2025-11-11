@@ -38,16 +38,19 @@ class StructLattes {
 
     for(final l in list) {
       count++;
+      // if(l is Title) {
+      //   print(l.text);
+      // }
       
-      //verifica se a linha contem o texto buscado
+      //se contiver, verifica ha filtro de titulos
+      if(only_title && l is! Title) {
+        continue;
+      }
+      
       if(l.text.toLowerCase().contains(by_text)) {
-        //se contiver, verifica ha filtro de titulos
-        if(only_title && l is! Title) {
-          continue;
-        }
-
         result.add((count,l.text));
       }
+      
     }
 
     return result;

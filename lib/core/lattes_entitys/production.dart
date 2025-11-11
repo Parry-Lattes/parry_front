@@ -6,7 +6,7 @@ class Production extends LattesEntity {
     List<String> coautores,
     String title,
     String date_pub,
-    String type,
+    TypeProduction type,
     String hash
   ) {
     attributes = {
@@ -14,8 +14,19 @@ class Production extends LattesEntity {
       'coautores': coautores,
       'titulo': title,
       'data_de_publicacao': date_pub,
-      'tipo_s': type,
+      'tipo_s': type.text_type,
       'hash': hash
     };
   }
+}
+
+enum TypeProduction {
+  bibliographic(text_type: 'Bibliográfica'),
+  technique(text_type: 'Técnica'),
+  patent(text_type: 'Patente'),
+  other(text_type: 'Outro');
+
+  final String text_type;
+
+  const TypeProduction({required this.text_type});
 }
