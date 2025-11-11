@@ -10,15 +10,16 @@ void main() {
   test_scrapping();
 }
 
-void test_scrapping() {
-  final struct = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_random.pdf');
+void test_scrapping() async {
+  final extractor = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_random.pdf');
+  final struct = extractor!.extract_data();
 
   final scrapper = Scrapper(struct);
   try {
     final (curriculo,people) = scrapper.scrapping();
     final json_curriculo = JsonEncoder.withIndent(' ').convert(curriculo.attributes);
     final json_pessoa = JsonEncoder.withIndent(' ').convert(people.attributes);
-    print('${json_curriculo}, ${json_pessoa}');
+    print('$json_curriculo, $json_pessoa');
   } catch (e) {
     print(e);
   }

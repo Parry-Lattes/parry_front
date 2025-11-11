@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/ui/collector/review_data.dart';
 import 'package:parry_front/ui/collector/select_collector.dart';
 
@@ -9,25 +10,23 @@ class Collector extends StatefulWidget {
   State<StatefulWidget> createState() => _Collector();
 }
 
-class _Collector extends State<Collector> {
-  final List<Widget> _panels = List.empty(growable: true);
-  int _index_panel = 0;
+class _Collector extends State<Collector> with AutomaticKeepAliveClientMixin<Collector>{
+  late Widget _child = SelectCollector(send_structs: _receiv_structs);
+  int teste = 0;
 
   @override
-  void initState() {
-    super.initState();
+  bool get wantKeepAlive => true;
 
-    _panels.addAll([SelectCollector(set_panel: _set_panel,),ReviewData()]);
-  }
-
-  void _set_panel(int i) {
+  void _receiv_structs(List<Extractor> a) {
     setState(() {
-      _index_panel = i;
+      _child = ReviewData(structs: a);
+      teste ++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return _panels[_index_panel];
+    super.build(context);
+    return _child;
   }
 }

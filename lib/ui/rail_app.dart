@@ -16,11 +16,22 @@ class _RailApp extends State<RailApp> {
 
   int _index = 0;
   final List<String> _title_context = List.from(<String>{'Dashboard','Coleta de currículos','Gerar relatório'});
-  final List<Widget> _panels = List.empty(growable: true);
+  final _page_controller = PageController(initialPage: 0);
+  late PageView _page_view;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _page_view = PageView(
+      controller: _page_controller,
+      physics: NeverScrollableScrollPhysics(),
+      children: <Widget>[Dashboard(),Collector(),RapporteurGenerator()],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    _panels.addAll(<Widget>{Dashboard(),Collector(),RapporteurGenerator()});
 
     return Scaffold(
       appBar: AppBar(
@@ -43,6 +54,7 @@ class _RailApp extends State<RailApp> {
                 setState(() {
                   _index = index;
                 });
+                _page_controller.jumpToPage(index);
               },
               destinations: [
                 NavigationRailDestination(
@@ -72,7 +84,7 @@ class _RailApp extends State<RailApp> {
                 color: ColorsApp.white.color,
                 width: double.infinity,
                 height: double.infinity,
-                child: _panels[_index],
+                child: _page_view,
               )
             )
           ],

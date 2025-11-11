@@ -1,11 +1,13 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:parry_front/core/scrapper/extracting_structure.dart';
+import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/ui/collector/check_pdf_files.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
 class SelectCollector extends StatelessWidget {
-  final Function(int i) set_panel;
-  const SelectCollector({super.key,required this.set_panel});
+  final Function(List<Extractor>) send_structs;
+  const SelectCollector({super.key,required this.send_structs});
 
   void _select_pdf_files(BuildContext context) {
     FilePicker.platform.pickFiles( //esperamos que o usuario selecione os arquivos
@@ -20,8 +22,12 @@ class SelectCollector extends StatelessWidget {
           if(context.mounted) {
             Navigator.pushNamed<bool>(context, '/pdf_view',arguments: {'pdf_path': path}).then(
               (confirm) {
-                if(confirm!) {
-                  set_panel(1);
+                if(confirm == true && path != null) {
+                  //como e apenas uma estrutura, apenas extraimos as linhas e mandamos uma lista com um unico elemento
+                  final extrator = ExtractingStructure.extracting_structure(path_pdf: path);
+                  if(extrator != null) {
+                    send_structs([extrator]);
+                  }
                 }
               }
             );
@@ -36,18 +42,26 @@ class SelectCollector extends StatelessWidget {
                     maxHeight: 400,
                     maxWidth: 500
                   ),
+                  backgroundColor: ColorsApp.grey2.color,
                   child: CheckPdfFiles(files: results.files),
                 );
               }
             ).then(
               (list) {
                 if(list != null) {
-                  set_panel(1);
+                  if(list.isNotEmpty) {
+                    //vamos criar uma lista de estruturas, e preencher elas com o extrator
+                    List<Extractor> structs = List.empty(growable: true);
+                    for(final l in list) {
+                      structs.add(ExtractingStructure.extracting_structure(path_pdf: l)!);
+                    }
+
+                    send_structs(structs);
+                  }
                 }
               }
             );
           }
-          
         }
       }
     });

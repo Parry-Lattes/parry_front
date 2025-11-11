@@ -37,9 +37,24 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
           ),
           value: _aproved[i],
           enabled: _aproved[i],
-          title: Text(
-            f.name,
-            style: TextStyle(color: ColorsApp.black.color),
+          title: TextButton( //damos a possibilidade de ele abrir o pdf para verificar a selecao
+            onPressed: () {
+              Navigator.pushNamed<bool>(
+                context,
+                '/pdf_view',
+                arguments: {'pdf_path': f.path}
+              ).then((confirm) {
+                if(confirm != null) {
+                  setState(() {
+                    _aproved[i] = confirm;
+                  });
+                }
+              });
+            },
+            child: Text(
+              f.name,
+              style: TextStyle(color: ColorsApp.black.color)
+            )
           ),
           onChanged: (value) {
             setState(() {
@@ -50,13 +65,14 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
       );
     }
 
-    print('${list_check.length}, ${_aproved.length}');
-
     return Padding(
         padding: EdgeInsets.all(20),
         child: Column(
-          spacing: 5,
+          spacing: 15,
           children: [
+            Center(
+              child: Text('Revise os arquivos para extração dos dados'),
+            ),
             Expanded(
               child: Container(
                 color: ColorsApp.white.color,
@@ -69,13 +85,16 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
               spacing: 5,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context,<String>[]);
                   },
-                  child: Text('Cancel')
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(ColorsApp.grey1.color)
+                  ),
+                  child: Text('Cancelar')
                 ),
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     final List<String> result = List.empty(growable: true);
                     for(int i = 0; i<_aproved.length; i++) {
@@ -87,7 +106,10 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
                     }
                     Navigator.pop(context,result);
                   },
-                  child: Text('Ok')
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(ColorsApp.black.color)
+                  ),
+                  child: Text('OK'),
                 ),
               ],
             )
