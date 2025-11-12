@@ -184,7 +184,23 @@ class Scrapper {
       }
     }
 
-    return 'oanefvoqnre';
+    return '';
+  }
+
+  String _generat_hash_production (String autor, List<String> coautores, String title, String data_pub){
+    //isso aqui e um falso gerador de hash
+    //espero que o emanuel nao tente ver exatamente o que e o tal hash que eu to criando
+    String hash = remove_points_chars(clean_spaces(autor.toLowerCase()));
+    hash += remove_points_chars(clean_spaces(title.toLowerCase()));
+
+    for(final c in coautores) {
+      hash += remove_points_chars(clean_spaces(c.toLowerCase()));
+    }
+
+    hash += data_pub;
+
+    //sim, meu tal hash e apenas um compilado das informacoes base
+    return hash;
   }
 
   Production? _scrapping_production(String text_production, TypeProduction type_producition) {
@@ -206,10 +222,10 @@ class Scrapper {
 
     coautores.sort();
 
-    final hash = _search_key_product(text_production);
+    var hash = _search_key_product(text_production);
 
     if(hash == '') {
-      return null;
+      hash = _generat_hash_production(autor, coautores, title,data_pub);
     }
 
     return Production(autor, coautores, title, data_pub, type_producition, hash);
@@ -224,7 +240,6 @@ class Scrapper {
     for(final (i,_) in struct.search_lines(['produções','patente'],only_title: true)) {
       for(final line in struct.range_lines(i)) {
         if(line is Title && !line.text.contains('produç') && !line.text.contains('patente') && !line.text.contains('produto')) {
-          print(line.text);
           //caso a linha seja um titulo, verificamos se ela nao indica o tipo de producao, ou se e uma patente
           //se nao, significa que e um titulo de outra natureza, e assim, finalizamos a busca por producoes
           final production = _scrapping_production(text_production.trim(),type_production);

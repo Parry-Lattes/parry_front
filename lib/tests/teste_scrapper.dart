@@ -12,7 +12,7 @@ void main() {
 }
 
 void test_scrapping() async {
-  final extractor = ExtractingStructure.extracting_structure(path_pdf: './assets/testes_pdf/lattes_marcela.pdf');
+  final extractor = ExtractingStructure.extracting_structure(path_pdf: './tests/pdf/lattes_marcela.pdf');
   final struct = extractor!.extract_data();
 
   final scrapper = Scrapper(struct);
@@ -20,7 +20,7 @@ void test_scrapping() async {
     final (curriculo,people) = scrapper.scrapping();
     final json_curriculo = JsonEncoder.withIndent(' ').convert(curriculo.attributes);
     final json_pessoa = JsonEncoder.withIndent(' ').convert(people.attributes);
-    File('./assets/json_lattes.text').writeAsStringSync('$json_curriculo, $json_pessoa');
+    File('./tests/json_lattes.text').writeAsStringSync('$json_curriculo, $json_pessoa');
   } catch (e) {
     print(e);
   }
