@@ -20,7 +20,7 @@ void test_scrapping() async {
     final (curriculo,people) = scrapper.scrapping();
     final json_curriculo = JsonEncoder.withIndent(' ').convert(curriculo.attributes);
     final json_pessoa = JsonEncoder.withIndent(' ').convert(people.attributes);
-    print('$json_curriculo, $json_pessoa');
+    File('./assets/json_lattes.text').writeAsStringSync('$json_curriculo, $json_pessoa');
   } catch (e) {
     print(e);
   }
@@ -30,7 +30,7 @@ void test_scrapping() async {
 
 void test_extract_pdf() async {
   final extractor = PDFExtractor();
-  extractor.load('./assets/testes_pdf/lattes_kazuo.pdf');
+  extractor.load('./assets/testes_pdf/lattes_marcela.pdf');
   final sla = extractor.extract_data();
   final file = File('./assets/lattes.text');
   String str = '';

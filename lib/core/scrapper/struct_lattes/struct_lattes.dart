@@ -25,7 +25,7 @@ class StructLattes {
   }
 
   //funcao essencial para o scrapper
-  List<(int,String)> search_lines(final String by_text,{bool only_title = false,int start = 0,int? end}) {
+  List<(int,String)> search_lines(final List<String> by_texts,{bool only_title = false,int start = 0,int? end}) {
     final List<(int,String)> result = List.empty(growable: true);
     int count = -1;
     var list = _lines;
@@ -46,9 +46,12 @@ class StructLattes {
       if(only_title && l is! Title) {
         continue;
       }
-      
-      if(l.text.toLowerCase().contains(by_text)) {
-        result.add((count,l.text));
+
+      for(final by_text in by_texts) {
+        if(l.text.toLowerCase().contains(by_text)) {
+          result.add((count,l.text));
+          break;
+        }
       }
       
     }

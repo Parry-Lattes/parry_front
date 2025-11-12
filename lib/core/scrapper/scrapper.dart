@@ -9,7 +9,6 @@ import 'package:parry_front/core/scrapper/parser_production.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/title.dart';
 import 'package:parry_front/tools/text_tools.dart';
-import 'package:quiver/core.dart';
 
 class Scrapper {
   final StructLattes struct;
@@ -19,7 +18,7 @@ class Scrapper {
     //para obter o endereço lattes, que geralmente esta no começo do texto,
     //buscamos pela sequencia de palavras 'id lattes'
     //agora trataremos de cada um dos resultados obtidos
-    for (var (_,l) in struct.search_lines('id lattes')) {
+    for (var (_,l) in struct.search_lines(['id lattes'])) {
       //para facilitar tudo, vamos lidar apenas com letrar minusculas
       l = l.toLowerCase();
       //agora, removemos o texto que buscamos
@@ -50,7 +49,7 @@ class Scrapper {
     final regex = RegExp(r'\b\d{1,2}/\d{1,2}/\d{4}\b');
     
 
-    for(var (_,l) in struct.search_lines('última atualização')) {
+    for(var (_,l) in struct.search_lines(['última atualização'])) {
       //buscamos saber se a linha possui a expressao regular
       final result = regex.firstMatch(l);
 
@@ -71,7 +70,7 @@ class Scrapper {
   String _search_name() {
     //buscamos pelos titulos de identificacao
     //dessa vez estamos interessados na posicao da linha, e nao em seu conteudo
-    for(final (i,_) in struct.search_lines('identificação',only_title: true)) {
+    for(final (i,_) in struct.search_lines(['identificação'],only_title: true)) {
       //a partir dessa posicao, vamos buscar por nome nas linhas subsequentes
       //ate um maximo de 20 linhas
       final lines = struct.range_lines(i,i+20);
@@ -105,7 +104,7 @@ class Scrapper {
     int start = 0, end = 0;
 
     //procuramos pelo titulo que indica a identificacao
-    for(final (i,_) in struct.search_lines('identificação',only_title: true)) {
+    for(final (i,_) in struct.search_lines(['identificação'],only_title: true)) {
       //nossa area de busca sera da identificacao mais 30 linhas
       final lines = struct.range_lines(i,i+30);
 
@@ -137,7 +136,7 @@ class Scrapper {
   }
 
   String _search_nacionality() {
-    final titles = struct.search_lines('identificação',only_title: true);
+    final titles = struct.search_lines(['identificação'],only_title: true);
 
     for(var (i,_) in titles) {
       //agora vamos pegar as 10 linhas apos o titulo
@@ -155,15 +154,37 @@ class Scrapper {
     return 'Brasil';
   }
 
-  String _search_patent_registrer(String text) {
-    // Regex para o formato BR + 12 números + hífen + 1 número
-    final regex = RegExp(r'BR\d{12}-\d');
-    
-    // Procura pela primeira ocorrência do padrão no texto
-    final match = regex.firstMatch(text);
-    
-    // Se encontrou, retorna o texto correspondente, senão retorna string vazia
-    return match?.group(0) ?? '';
+  String _search_key_product(final String text) {
+    //primeiro, vamos buscar pelo possivel codigo de registro de patente
+    final text_lower_case = clean_spaces(text.toLowerCase()); //para simplificar as buscas
+
+    //geralmente, o texto que precede o numero do registro de patente e
+    //'Numero do registro:', por isso, vamos buscar pelo desse texto
+    final pos = text_lower_case.indexOf('registro:'); 
+    if(pos > 0) { //se a posicao for menor ou igual a zero, provavelmente tem algo errado
+      //logo depois do texto que procuramos, deve haver o registro da patente
+      final sub_text = text_lower_case.substring(pos).replaceFirst('registro:', ''); 
+      if(sub_text.substring(0,2) == 'br') { //todo registro de patente comeca com BR
+        //vamos pegar o codigo numerico do registro
+        var text_number = '';
+        for(int i = 2; i < sub_text.length - 2; i++) {
+          final char = sub_text[i];
+          if(is_algarism(char)) {
+            text_number += char;
+          } else if(char == '-') {
+            text_number += sub_text.substring(i,i+2);
+            break;
+          } else {
+            break;
+          }
+        }
+
+        //agora basta retornar o que encontramos
+        return 'BR$text_number';
+      }
+    }
+
+    return 'oanefvoqnre';
   }
 
   Production? _scrapping_production(String text_production, TypeProduction type_producition) {
@@ -185,39 +206,33 @@ class Scrapper {
 
     coautores.sort();
 
-    final hash = type_producition == TypeProduction.patent
-      ? _search_patent_registrer(text_production)
-      :hashObjects([
-      autor,
-      coautores,
-      title,
-      data_pub,
-      type_producition
-    ]);
+    final hash = _search_key_product(text_production);
 
     if(hash == '') {
       return null;
     }
 
-    return Production(autor, coautores, title, data_pub, type_producition, '$hash');
+    return Production(autor, coautores, title, data_pub, type_producition, hash);
   }
 
   List<Production> _search_productions() {
     final List<Production> list_productions = List.empty(growable: true);
-    final regex = RegExp(r'^\d+\.$');
     String text_production = '';
     TypeProduction type_production = TypeProduction.other;
 
     int counter = 0;//essa variavel vai ser util para contar as producoes
-    for(final (i,_) in struct.search_lines('produções',only_title: true)) {
+    for(final (i,_) in struct.search_lines(['produções','patente'],only_title: true)) {
       for(final line in struct.range_lines(i)) {
-        if(line is Title && !line.text.contains('produç')) {
+        if(line is Title && !line.text.contains('produç') && !line.text.contains('patente') && !line.text.contains('produto')) {
+          print(line.text);
           //caso a linha seja um titulo, verificamos se ela nao indica o tipo de producao, ou se e uma patente
           //se nao, significa que e um titulo de outra natureza, e assim, finalizamos a busca por producoes
           final production = _scrapping_production(text_production.trim(),type_production);
           if(production != null) {
             list_productions.add(production);
           }
+          text_production = '';
+          counter = 0;
           break;
         } else if(line is Title) {
 
@@ -236,56 +251,22 @@ class Scrapper {
         }
 
         //em minhas observações, toda producao e precedida de uma numeracao
-        if(regex.hasMatch(clean_spaces(line.text))) {
-          //as proximas 3 linhas parecem estranhas, mas acontece que, como eu estou procurando por numeracoes seguidas de pontos
-          //pode ser que um ano seguido de um ponto seja confundido com uma das numeracoes.
-          //por esse motivo, eu testo se o numero e maior que o proximo da lista, se for, eu apenas continuo procurando
-          //se nao for, eu atribuo o valor a counter. Por isso counter e importante
-          //isso certamente pode gerar grandes problemas, mas eu vou fazer o que?
-          final number_production = int.tryParse(clean_spaces(remove_points_chars(line.text)))!;
-          if(number_production > counter+1) {continue;}
+        try {
+          //entao, eu vou focar transformas a linha em um numero, se gerar um erro, ele vai simplesmente adicionar a linha
+          final number_production = int.parse(clean_spaces(remove_points_chars(line.text)));
 
-          counter = number_production;
-
-          //agora que eu encontrei um numero que indica que ha uma producao, vou pegar as proximas linhas ate o proximo numero
-          //entao, eu mando o texto da producao atual para a lista de producoes, apos procesar claro
-          final production = _scrapping_production(text_production.trim(),type_production);
-          if(production != null) {
-            list_productions.add(production);
-          }
-
-          //a partir da proxima linha, ele vai capturar os textos novamente
-          text_production = '';
-          continue;
-        }
-        text_production += '${line.text} ';
-      }
-    }
-
-    //agora, vamos fazer a mesma coisa para as patentes
-    //eu ate poderia modularizar esse codigo, mas eu estou com preguica :)
-    text_production = '';
-    type_production = TypeProduction.patent;
-    for(final (i,_) in struct.search_lines('patentes',only_title: true)) {
-      for(final line in struct.range_lines(i)) {
-        if (line is Title && !line.text.contains('patente')) {
-            final production = _scrapping_production(text_production.trim(),type_production);
-            if(production != null) {
-              list_productions.add(production);
+          //entao, primeiro, eu vou testar se o numero e diferente do proximo numero da numeracao
+          if(number_production != counter+1) {
+            //se for, vou testar se ele e diferente de 1
+            if(number_production != 1) {
+              //se for diferente de 1, significa uma grande quebra no padrao, provavalmente nao esta indicando uma nova producao
+              //logo, devo apenas adicionar ao texto acumulado
+              text_production += line.text;
+              continue;
             }
-          break;
-        }
+          }
 
-        //em minhas observações, toda producao e precedida de uma numeracao
-        if(regex.hasMatch(clean_spaces(line.text))) {
-          //as proximas 3 linhas parecem estranhas, mas acontece que, como eu estou procurando por numeracoes seguidas de pontos
-          //pode ser que um ano seguido de um ponto seja confundido com uma das numeracoes.
-          //por esse motivo, eu testo se o numero e maior que o proximo da lista, se for, eu apenas continuo procurando
-          //se nao for, eu atribuo o valor a counter. Por isso counter e importante
-          //isso certamente pode gerar grandes problemas, mas eu vou fazer o que?
-          final number_production = int.tryParse(clean_spaces(remove_points_chars(line.text)))!;
-          if(number_production > counter+1) {continue;}
-
+          //se chegou aqui, e passou em todos esses testes, significa que provavelmente finalizou o texto da producao acumulado
           counter = number_production;
 
           //agora que eu encontrei um numero que indica que ha uma producao, vou pegar as proximas linhas ate o proximo numero
@@ -298,8 +279,9 @@ class Scrapper {
           //a partir da proxima linha, ele vai capturar os textos novamente
           text_production = '';
           continue;
+        } on FormatException {
+          text_production += '${line.text} ';
         }
-        text_production += '${line.text} ';
       }
     }
 

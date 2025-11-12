@@ -81,6 +81,10 @@ class Lexer {
   }
 
   List<Token> tokenize() {
+    if(text.isEmpty) {
+      return [Token(type: TypeToken.end,value: null)];
+    }
+
     final List<Token> list_tokens = List.empty(growable: true);
 
     while(true) {
