@@ -19,7 +19,7 @@ class _Collector extends State<Collector> with AutomaticKeepAliveClientMixin<Col
 
   void _receiv_structs(List<Extractor> a) {
     setState(() {
-      _child = ReviewData(structs: a);
+      _child = ReviewData(extrators: a);
       teste ++;
     });
   }

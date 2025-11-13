@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_people.dart';
-import 'package:parry_front/ui/collector/spreadsheet/edit_list_text.dart';
+import 'package:flutter/services.dart';
+import 'package:parry_front/tools/convert_data.dart';
+import 'package:parry_front/ui/collector/spreadsheet/button_data_picker.dart';
+import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_curriculum.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
-class TablePeople extends StatelessWidget {
-  final ControllerTablePeople controller;
-  TablePeople({super.key,required this.controller});
+class TableCurriculum extends StatelessWidget {
+  final ControllerTableCurriculum controller;
+  TableCurriculum({super.key,required this.controller});
 
   final _label_style = TextStyle(
     color: ColorsApp.black.color,
@@ -13,10 +15,11 @@ class TablePeople extends StatelessWidget {
   );
 
   final _edit_text_style = TextStyle(color: ColorsApp.black.color);
-  final _scroll_controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    final last_update = controller.last_update;
+    final date_update = string_to_date(last_update)!;
 
     return Padding(
       padding: EdgeInsetsGeometry.all(30),
@@ -33,7 +36,7 @@ class TablePeople extends StatelessWidget {
               ),
             ),
             child: Text(
-              'Pessoa',
+              'Currículo',
               style: TextStyle(
                 color: ColorsApp.white.color,
                 fontWeight: FontWeight.bold
@@ -62,15 +65,17 @@ class TablePeople extends StatelessWidget {
                 children: [
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Text('Nome',style: _label_style)
+                    child: Text('ID Lattes',style: _label_style)
                   ),
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
                       padding: EdgeInsetsGeometry.all(5),
                       child: TextField(
-                        controller: TextEditingController(text: controller.name),
-                        onChanged: (value) => controller.name = value,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        controller: TextEditingController(text: '${controller.id_lattes}'),
+                        onChanged: (value) => controller.id_lattes = int.tryParse(value)!,
                         style: _edit_text_style,
                       ),
                     )
@@ -81,42 +86,19 @@ class TablePeople extends StatelessWidget {
                 children: [
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Text('Nacionalidade',style: _label_style,)
+                    child: Text('Última Atualização',style: _label_style,)
                   ),
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
                       padding: EdgeInsetsGeometry.all(5),
-                      child: TextField(
-                        controller: TextEditingController(text: controller.nationality),
-                        onChanged: (value) => controller.nationality = value,
-                        style: _edit_text_style,
+                      child: ButtonDataPicker(
+                        on_changed: (value) {
+                          if(value == null) {return;}
+                          controller.last_update = date_to_string(value);
+                        },
+                        initial_date: date_update
                       ),
-                    )
-                  )
-                ]
-              ),
-              TableRow(
-                children: [
-                  TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Text('Abreviaturas',style: _label_style,)
-                  ),
-                  SizedBox(
-                    height: 80,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsetsGeometry.all(5),
-                      child: Scrollbar(
-                        controller: _scroll_controller,
-                        thumbVisibility: true,
-                        child: ListView(
-                          controller: _scroll_controller,
-                          children: [
-                            EditListText(controller: controller.controller_abbreviations),
-                          ]
-                        )
-                      )
                     )
                   )
                 ]

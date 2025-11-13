@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/core/lattes_entitys/curriculum.dart';
-import 'package:parry_front/core/lattes_entitys/people.dart';
-import 'package:parry_front/core/scrapper/extractor/extractor.dart';
-import 'package:parry_front/core/scrapper/scrapper.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_pessoa.dart';
+import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_spreadsheet.dart';
+import 'package:parry_front/ui/collector/spreadsheet/table_curriculum.dart';
 import 'package:parry_front/ui/collector/spreadsheet/table_people.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
 class Spreadsheet extends StatefulWidget {
-  final Extractor extractor;
-  
-  const Spreadsheet({super.key,required this.extractor});
+  final ControllerSpreadsheet controller;
+  const Spreadsheet({super.key,required this.controller});
 
   @override
   State<StatefulWidget> createState() => _Spreadsheet();
@@ -19,19 +15,9 @@ class Spreadsheet extends StatefulWidget {
 class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin {
   Status _status = Status.loading;
   String? _msg_error;
-  double _height = 500;
 
   //late Curriculum _curriculum;
-  final _controller_people = ControllerTablePessoa();
   late Widget _child;
-
-  Future<(Curriculum,People)> _load_data() async {
-    await Future.delayed(Duration(seconds: 2));
-    final struct = widget.extractor.extract_data();
-
-    final scrapper = Scrapper(struct);
-    return scrapper.scrapping();
-  }
 
   @override
   bool get wantKeepAlive => true;
@@ -43,16 +29,24 @@ class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin
     switch(_status) {
       case Status.loading:
         _child = SizedBox(
-          width: 50,
-          height: 50,
-          child: CircularProgressIndicator(value: null,color: ColorsApp.black.color,)
+          width: double.infinity,
+          height: 500,
+          child: Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(value: null,color: ColorsApp.black.color)
+            )
+          )
         );
-        _load_data().then(
+
+        widget.controller.load_data().then(
           (result) {
             setState(() {
               _status = Status.sucess;
               //_curriculum = result.$1;
-              _controller_people.people = result.$2;
+              widget.controller.controller_people.people = result.$2;
+              widget.controller.controller_curriculum.curriculum = result.$1;
             });
           },
           onError: (e) {
@@ -64,7 +58,12 @@ class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin
         );
         break;
       case Status.sucess:
-        _child = TablePeople(controller: _controller_people,);
+        _child = Column(
+          children: [
+            TablePeople(controller: widget.controller.controller_people),
+            TableCurriculum(controller: widget.controller.controller_curriculum)
+          ],
+        );
         break;
       case Status.failed:
         _child = Text(
@@ -77,9 +76,7 @@ class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin
         );
     }
 
-    return SizedBox(
-      width: double.infinity,
-      height: _height,
+    return IntrinsicHeight(
       child: Padding(
         padding: EdgeInsetsGeometry.all(20),
         child: Card(
@@ -95,7 +92,7 @@ class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin
             child: _child,
           ),
         )
-      ),
+      )
     );
   }
 }

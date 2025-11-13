@@ -1,17 +1,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
+import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/spreadsheet.dart';
 
 class ReviewData extends StatelessWidget {
-  final List<Extractor> structs;
-  const ReviewData({super.key,required this.structs});
+  final List<Extractor> extrators;
+  const ReviewData({super.key,required this.extrators});
 
   @override
   Widget build(BuildContext context) {
     final List<Spreadsheet> spreads = List.empty(growable: true);
-    for(final s in structs) {
-      spreads.add(Spreadsheet(extractor: s));
+    for(final e in extrators) {
+      final controller = ControllerSpreadsheet(e);
+      spreads.add(Spreadsheet(controller: controller));
     }
 
     return ListView(
