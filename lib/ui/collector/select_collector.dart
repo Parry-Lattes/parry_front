@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:parry_front/core/scrapper/extracting_structure.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
+import 'package:parry_front/core/scrapper/extractor/getting_extractor.dart';
 import 'package:parry_front/ui/collector/check_pdf_files.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
@@ -24,7 +24,7 @@ class SelectCollector extends StatelessWidget {
               (confirm) {
                 if(confirm == true && path != null) {
                   //como e apenas uma estrutura, apenas extraimos as linhas e mandamos uma lista com um unico elemento
-                  final extrator = ExtractingStructure.extracting_structure(path_pdf: path);
+                  final extrator = getting_extractor(path_pdf: path);
                   if(extrator != null) {
                     send_structs([extrator]);
                   }
@@ -53,7 +53,7 @@ class SelectCollector extends StatelessWidget {
                     //vamos criar uma lista de estruturas, e preencher elas com o extrator
                     List<Extractor> structs = List.empty(growable: true);
                     for(final l in list) {
-                      structs.add(ExtractingStructure.extracting_structure(path_pdf: l)!);
+                      structs.add(getting_extractor(path_pdf: l)!);
                     }
 
                     send_structs(structs);

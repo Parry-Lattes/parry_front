@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:parry_front/core/scrapper/extracting_structure.dart';
+import 'package:parry_front/core/scrapper/extractor/getting_extractor.dart';
 import 'package:parry_front/core/scrapper/extractor/pdf_extractor.dart';
 import 'package:parry_front/core/scrapper/lexer/lexer.dart';
 import 'package:parry_front/core/scrapper/parser_production.dart';
@@ -12,7 +12,7 @@ void main() {
 }
 
 void test_scrapping() async {
-  final extractor = ExtractingStructure.extracting_structure(path_pdf: './tests/pdf/lattes_marcela.pdf');
+  final extractor = getting_extractor(path_pdf: './tests/pdf/lattes_marcela.pdf');
   final struct = extractor!.extract_data();
 
   final scrapper = Scrapper(struct);

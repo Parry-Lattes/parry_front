@@ -17,9 +17,9 @@ class App extends StatelessWidget{
           primary: ColorsApp.white.color,
           secondary: ColorsApp.black.color,
           error: ColorsApp.red.color,
-          surface: ColorsApp.brown.color,
+          surface: ColorsApp.brown1.color,
           onError: ColorsApp.white.color,
-          onPrimary: ColorsApp.brown.color,
+          onPrimary: ColorsApp.brown1.color,
           onSecondary: ColorsApp.white.color,
           onSurface: ColorsApp.white.color
         ),

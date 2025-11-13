@@ -7,7 +7,8 @@ enum ColorsApp {
   black(r: 39, g: 29, b: 44, o: 1),
   grey1(r: 49, g: 53, b: 56, o: 1),
   grey2(r: 58, g: 59, b: 63, o: 1),
-  brown(r: 123,g: 105,b: 96,o: 1);
+  brown1(r: 123,g: 105,b: 96,o: 1),
+  brown2(r: 181, g: 169, b: 162, o: 1);
 
   const ColorsApp(
     {
