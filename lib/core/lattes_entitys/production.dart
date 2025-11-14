@@ -18,6 +18,24 @@ class Production extends LattesEntity {
       'hash': hash
     };
   }
+
+  String get autor => attributes['autor'];
+  List<String> get coautores => attributes['coautores'];
+  String get title => attributes['titulo'];
+  String get date_pub => attributes['data_de_publicacao'];
+  TypeProduction get type {
+    switch (attributes['tipo_s']) {
+      case 'Bibliográfica':
+        return TypeProduction.bibliographic;
+      case 'Técnica':
+        return TypeProduction.technique;
+      case 'Patente':
+        return TypeProduction.patent;
+    }
+
+    return TypeProduction.other;
+  }
+  String get hash => attributes['hash'];
 }
 
 enum TypeProduction {

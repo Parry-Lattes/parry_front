@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_people.dart';
-import 'package:parry_front/ui/collector/spreadsheet/edit_list_text.dart';
+import 'package:parry_front/ui/my_widgets/edit_list_text.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
 class TablePeople extends StatelessWidget {
@@ -41,7 +41,7 @@ class TablePeople extends StatelessWidget {
             ),
           ),
           Divider(
-            height: 1,
+            height: 2,
             thickness: 1,
             color: ColorsApp.grey1.color,
           ),

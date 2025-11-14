@@ -18,9 +18,9 @@ class ControllerTablePeople {
 
   People get people => People(name, 0, _edit_abbreviations.list_text, nationality);
   set people (People p){
-    name = p.attributes['nome'];
-    _edit_abbreviations = ControllerEditListText(list_text: p.attributes['abreviaturas']);
-    nationality = p.attributes['nacionalidade'];
+    name = p.name;
+    _edit_abbreviations = ControllerEditListText(list_text: p.abbreviations);
+    nationality = p.nacionality;
   }
 
   ControllerEditListText get controller_abbreviations => _edit_abbreviations;

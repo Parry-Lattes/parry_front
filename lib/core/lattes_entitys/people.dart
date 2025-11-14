@@ -14,4 +14,9 @@ class People extends LattesEntity{
       'nacionalidade': nationality
     };
   }
+
+  int get id_lattes => attributes['id_lattes'];
+  String get name => attributes['nome'];
+  List<String> get abbreviations => attributes['abreviaturas'];
+  String get nacionality => attributes['nacionalidade'];
 }

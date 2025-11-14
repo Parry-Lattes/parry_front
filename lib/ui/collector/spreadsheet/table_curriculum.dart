@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parry_front/tools/convert_data.dart';
-import 'package:parry_front/ui/collector/spreadsheet/button_data_picker.dart';
+import 'package:parry_front/ui/collector/spreadsheet/list_productions.dart';
+import 'package:parry_front/ui/my_widgets/button_data_picker.dart';
 import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_curriculum.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
@@ -44,7 +45,7 @@ class TableCurriculum extends StatelessWidget {
             ),
           ),
           Divider(
-            height: 1,
+            height: 2,
             thickness: 1,
             color: ColorsApp.grey1.color,
           ),
@@ -104,7 +105,11 @@ class TableCurriculum extends StatelessWidget {
                 ]
               )
             ]
-          )
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          ListProductions(controllers: controller.productions)
         ]
       )
     );
