@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_spreadsheet.dart';
+import 'package:parry_front/controllers/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/spreadsheet.dart';
 
 class ReviewData extends StatelessWidget {

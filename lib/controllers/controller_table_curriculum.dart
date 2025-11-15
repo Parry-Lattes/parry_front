@@ -1,7 +1,7 @@
 
 
 import 'package:parry_front/core/lattes_entitys/curriculum.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_production.dart';
+import 'package:parry_front/controllers/controller_table_production.dart';
 
 class ControllerTableCurriculum {
   int id_lattes = 0;

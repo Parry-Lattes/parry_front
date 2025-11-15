@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parry_front/core/lattes_entitys/production.dart';
 import 'package:parry_front/tools/convert_data.dart';
 import 'package:parry_front/ui/my_widgets/button_data_picker.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_production.dart';
+import 'package:parry_front/controllers/controller_table_production.dart';
 import 'package:parry_front/ui/my_widgets/edit_list_text.dart';
 import 'package:parry_front/ui/colors_app.dart';
 

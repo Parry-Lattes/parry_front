@@ -1,11 +1,11 @@
 import 'package:parry_front/core/lattes_entitys/production.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_edit_list_text.dart';
+import 'package:parry_front/controllers/controller_edit_list_text.dart';
 
 class ControllerTableProduction {
   String autor = '';
   ControllerEditListText _edit_coautores = ControllerEditListText(list_text: List.empty());
   String title = '';
-  String date_pub = '2006'; //valor padrao aqui pra nao trollar
+  String date_pub = '2006'; //valor padrao aqui pra nao gerar problemas de valor nulo
   TypeProduction type = TypeProduction.other;
 
   ControllerTableProduction([Production? p]) {

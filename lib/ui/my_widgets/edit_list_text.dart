@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_edit_list_text.dart';
+import 'package:parry_front/controllers/controller_edit_list_text.dart';
 
 class EditListText extends StatefulWidget {
   final ControllerEditListText controller;

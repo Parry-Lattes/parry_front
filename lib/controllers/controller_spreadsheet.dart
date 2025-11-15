@@ -2,8 +2,8 @@ import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/core/lattes_entitys/people.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/core/scrapper/scrapper.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_curriculum.dart';
-import 'package:parry_front/ui/collector/spreadsheet/controllers/controller_table_people.dart';
+import 'package:parry_front/controllers/controller_table_curriculum.dart';
+import 'package:parry_front/controllers/controller_table_people.dart';
 
 class ControllerSpreadsheet {
   late Extractor _extractor;
