@@ -5,20 +5,13 @@ import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 import 'package:parry_front/tools/text_tools.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-class PDFExtractor implements Extractor{
+class PDFExtractor extends Extractor{
   late PdfDocument document;
   late PdfTextExtractor extrator;
-  List<String> titles = List.empty();
 
-  PDFExtractor() {
+  PDFExtractor():super() {
     document = PdfDocument();
     extrator = PdfTextExtractor(document);
-    _load_titles();
-  }
-
-  void _load_titles() {
-    final lines_titles = File('assets/texts/titles_lattes.txt').readAsStringSync().toLowerCase();
-    titles = lines_titles.split('\n');
   }
 
   @override
@@ -41,7 +34,7 @@ class PDFExtractor implements Extractor{
           line = clean_spaces(line);
         }
 
-        final title = _is_title(line);
+        final title = is_title(line);
         if(title != '') {
           struct.add_title(title);
         } else {
@@ -102,28 +95,5 @@ class PDFExtractor implements Extractor{
     //se ele percorreu toda a lista de posicoes, e nenhuma posicao
     //esta abaixo desta linha, entao a posicao deve ser 0, a primeira
     return 0;
-  }
-
-  String _is_title(final String text) {
-    //para saber se o texto e um titulo, crio uma versao dele sem espacos em branco
-    final text_clean = clean_spaces(text);
-
-    //crio tambem uma versao em lower case
-    final text_lower = text.toLowerCase();
-    //e outra sem espacos e lower case
-    final text_lower_clean = text_clean.toLowerCase();
-
-    //agora, comparo ambas as versoes com cada um dos titulos possiveis
-    for(final title in titles) {
-      if(title == text_lower) {
-        return text_lower;
-      }
-
-      if(title== text_lower_clean) {
-        return text_lower_clean;
-      }
-    }
-
-    return '';
   }
 }

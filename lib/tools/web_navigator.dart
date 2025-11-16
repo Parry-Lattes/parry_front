@@ -1,6 +1,6 @@
 import 'package:puppeteer/puppeteer.dart';
 
-abstract class Navigator {
+abstract class WebNavigator {
   /*
    * O objetivo desta classe e fornecer uma forma de acessar as paginas da internet
    * O Parry Lattes necessita de uma forma rapida de conseguir os curriculos.
@@ -48,7 +48,7 @@ abstract class Navigator {
       final content = await p.content;
 
       if(title != null && content != null) {
-        if(title.contains(by_text)) {
+        if(title.toLowerCase().contains(by_text.toLowerCase())) {
           result[title] = content;
         }
       }
