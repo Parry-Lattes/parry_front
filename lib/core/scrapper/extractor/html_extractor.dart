@@ -2,6 +2,7 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
+import 'package:parry_front/tools/text_tools.dart';
 
 class HTMLExtractor extends Extractor {
   late Document _document;
@@ -24,37 +25,58 @@ class HTMLExtractor extends Extractor {
 
     final struct = StructLattes(); //criamos a estrutura de antemao
 
-    //o restante e quase igual ao caso do pdf
-    final text_root = element_curriculum.text;
-    if(!_is_empyt(text_root)) {
-      final text = is_title(text_root);
-
-      if(text == '') {
-        struct.add_line(text_root);
-      } else {
-        struct.add_title(text);
-      }
-    }
-
-    final elements = element_curriculum.children;
-    for (final el in elements) {
-      final text_element = el.text;
-      if (_is_empyt(text_element)) {continue;}
-
-      final title = is_title(text_element);
-
-      if(title != '') {
-        struct.add_title(title);
-      } else {
-        struct.add_line(text_element);
-      }
-    }
-
+    _iter_nodes(element_curriculum.nodes, struct);
+    
     return struct;
   }
 
-  bool _is_empyt(String text) {
-    //if(text == null) {return true;}
-    return text.isEmpty || text.trim().isEmpty;
+  void _iter_nodes(NodeList nodes,StructLattes struct) {
+    for(final node in nodes) {
+      if(node is Element) {
+        if(node.localName!.toLowerCase() == 'script') {
+          continue;
+        }
+      }
+
+      //primeiro, verifico o tamanho do no filho
+      if(node.nodes.length == 1) {
+        //se tiver o tamanho de um, pode ser que seu filho seja apenas um texto
+        //para saber isso, verifico se seu filho e vazio
+        if(node.nodes.first.nodes.isEmpty) {
+          //se for, adiciono uma nova linha
+          final text_line = node.text;
+          if(!_is_empty(text_line)) {
+            _add_line(struct, text_line!);
+            continue;
+          }
+        }
+      } else if(node.nodes.isEmpty) {
+        final text_line = node.text;
+        if(!_is_empty(text_line)) {
+          _add_line(struct, text_line!);
+        }
+        continue;
+      }
+
+      //por fim, me resta continuar a iteracao
+      _iter_nodes(node.nodes, struct);
+    }
+  }
+
+  void _add_line(StructLattes struct, String line) {
+    final title = is_title(line);
+
+    if(title != '') {
+      struct.add_title(title);
+      return;
+    }
+
+    //nao quero tabs sujando a memoria
+    struct.add_line(line.replaceAll('\t', ' ').trim());
+  }
+
+  bool _is_empty(String? text) {
+    if(text == null) {return true;}
+    return text.trim().isEmpty;
   }
 }

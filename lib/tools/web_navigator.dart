@@ -32,6 +32,30 @@ abstract class WebNavigator {
   }
 
   /*
+   * Alerta: este codigo foi gerado por IA. Simplesmente capturar o content nao era suficiente
+   * entao, precisei de algo mais preciso, que no caso foi recorrer a injetar codigo js
+   * na webview e retornar o resultado. Veremos se funciona
+   */
+  static Future<String?> _get_rendered_html(Page page) async {
+    try {
+      // Tenta várias abordagens
+      var html = await page.evaluate('''() => {
+        // Tenta pegar o body primeiro, se não, todo o document
+        if (document.body) {
+          return document.body.innerHTML;
+        }
+        return document.documentElement.outerHTML;
+      }''');
+      
+      return html;
+    } catch (e) {
+      // Fallback para o método tradicional
+      print('deu merda');
+      return await page.content;
+    }
+  }
+
+  /*
    * O principal objetivo desse navegador e permitir a passagem pelo Captcha,
    * tornando assim possivel extrair as paginas html dos curriculos.
    * O que essa funcao faz e verificar se o titulo da pagina contem o texto fornecido
@@ -45,7 +69,7 @@ abstract class WebNavigator {
     final result = <String,String>{};
     for(final p in pages) {
       final title = await p.title;
-      final content = await p.content;
+      final content = await _get_rendered_html(p);
 
       if(title != null && content != null) {
         if(title.toLowerCase().contains(by_text.toLowerCase())) {

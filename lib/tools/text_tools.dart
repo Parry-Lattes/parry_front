@@ -19,7 +19,9 @@ String clean_spaces(String text) {
     text_clean += text[i];
   }
 
-  return text_clean;
+  text_clean = text_clean.replaceAll('\t', ' ');
+
+  return text_clean.trim();
 }
 
 String remove_points_chars(final String text) {
