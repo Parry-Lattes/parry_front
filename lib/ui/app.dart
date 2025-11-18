@@ -42,8 +42,6 @@ class App extends StatelessWidget{
 
         return null;
       },
-      
     );
-  
   }
 }

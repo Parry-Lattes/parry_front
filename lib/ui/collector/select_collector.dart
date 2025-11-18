@@ -130,6 +130,8 @@ class SelectCollector extends StatelessWidget {
             }
           }
         );
+      } else {
+        WebNavigator.close_navigator();
       }
     });
   }

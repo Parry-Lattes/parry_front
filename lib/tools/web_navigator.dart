@@ -81,7 +81,10 @@ abstract class WebNavigator {
     return result;
   }
 
-  static void close_navigator() async {
-    if(_browser != null) {_browser!.close();}
+  static Future close_navigator() async {
+    if(_browser != null) {
+      await _browser!.close();
+      _browser = null;
+    }
   }
 }

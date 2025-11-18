@@ -5,6 +5,7 @@ enum ColorsApp {
   red(r: 240, g: 41, b: 88, o: 1),
   white(r: 245, g: 245,b: 245, o: 1),
   black(r: 39, g: 29, b: 44, o: 1),
+  black_transparent(r: 39, g: 29, b: 44, o: 0.5),
   grey1(r: 49, g: 53, b: 56, o: 1),
   grey2(r: 58, g: 59, b: 63, o: 1),
   brown1(r: 123,g: 105,b: 96,o: 1),

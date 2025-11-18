@@ -1,5 +1,3 @@
-//this is a intarface, not a class
-//Dart do it
 import 'dart:io';
 
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
