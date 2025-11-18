@@ -2,8 +2,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/core/scrapper/extractor/getting_extractor.dart';
+import 'package:parry_front/tools/web_navigator.dart';
+import 'package:parry_front/ui/collector/check_html_pages.dart';
 import 'package:parry_front/ui/collector/check_pdf_files.dart';
 import 'package:parry_front/ui/colors_app.dart';
+import 'package:parry_front/ui/my_widgets/button_confirm.dart';
 
 class SelectCollector extends StatelessWidget {
   final Function(List<Extractor>) send_structs;
@@ -67,6 +70,70 @@ class SelectCollector extends StatelessWidget {
     });
   }
 
+  void _select_pages_html(BuildContext context) {
+    //faco o navegador
+    WebNavigator.init_navigator('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar');
+    Map<String,String> pages_html = {};
+
+    showDialog(
+      context: context,
+      builder: (BuildContext builder) {
+        return AlertDialog(
+          constraints: BoxConstraints(
+            maxHeight: 250
+          ),
+          title: Text('Abra os currículos'),
+          content: Column(
+            children: [
+              SizedBox(
+                height: 100,
+                width: 300,
+                child: Text('Abrimos um navegador para você, abra os currículos que você deseja coletar neles, e depois clique em confirmar')
+              ),
+              ButtonConfirm(
+                action: () async {
+                  pages_html = await WebNavigator.load_pages('Currículo do Sistema de Currículos Lattes');
+                  //await Future.delayed(Duration(seconds: 2));
+                  WebNavigator.close_navigator();
+                }
+              )
+            ],
+          ),
+        );
+      }
+    ).then((value) {
+      if(value == true && context.mounted) {
+        showDialog<List<String>>(
+          context: context,
+          builder: (BuildContext c) {
+            return Dialog(
+              constraints: BoxConstraints(
+                maxHeight: 400,
+                maxWidth: 500
+              ),
+              backgroundColor: ColorsApp.grey2.color,
+              child: CheckHtmlPages(pages: pages_html),
+            );
+          }
+        ).then(
+          (list) {
+            if(list != null) {
+              if(list.isNotEmpty) {
+                //vamos criar uma lista de estruturas, e preencher elas com o extrator
+                List<Extractor> structs = List.empty(growable: true);
+                for(final l in list) {
+                  structs.add(getting_extractor(text_html: l)!);
+                }
+
+                send_structs(structs);
+              }
+            }
+          }
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -94,7 +161,9 @@ class SelectCollector extends StatelessWidget {
                   child: Text('PDF')
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    _select_pages_html(context);
+                  },
                   child: Text('Web')
                 ),
                 ElevatedButton(

@@ -18,8 +18,8 @@ class Scrapper {
     //para obter o endereço lattes, que geralmente esta no começo do texto,
     //buscamos pela sequencia de palavras 'id lattes'
     //agora trataremos de cada um dos resultados obtidos
-    for (var (_,l) in struct.search_lines(['id lattes'])) {
-      //para facilitar tudo, vamos lidar apenas com letrar minusculas
+    for (var (i,l) in struct.search_lines(['id lattes'])) {
+      //para facilitar tudo, vamos lidar apenas com letras minusculas
       l = l.toLowerCase();
       //agora, removemos o texto que buscamos
       l = l.replaceAll('id lattes', '');
@@ -35,6 +35,20 @@ class Scrapper {
           return int.parse(l);
         } on FormatException {
           //se der errado, tentamos em outra linha
+          continue;
+        }
+      } else {
+        //se nao for o caso de estar na mesma linha, entao deve estar na proxima
+        final next_line = struct.lines[i+1];
+        final text_line = clean_spaces(next_line.text);
+
+        if(text_line.length != 16) { //vericamos se o texto se encaixa no padrao
+          return -1;
+        }
+
+        try {
+          return int.parse(text_line); //tentamos retornar ele
+        } on FormatException {
           continue;
         }
       }

@@ -1,4 +1,5 @@
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
+import 'package:parry_front/core/scrapper/extractor/html_extractor.dart';
 import 'package:parry_front/core/scrapper/extractor/pdf_extractor.dart';
 
 Extractor? getting_extractor({final String path_pdf = '', final String text_html = ''}) {
@@ -10,7 +11,9 @@ Extractor? getting_extractor({final String path_pdf = '', final String text_html
     }
 
     if (text_html != '') {
-      return PDFExtractor();
+      final extractor = HTMLExtractor();
+      extractor.load(text_html);
+      return extractor;
     }
 
     return null;

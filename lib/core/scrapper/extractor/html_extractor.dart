@@ -2,7 +2,6 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
-import 'package:parry_front/tools/text_tools.dart';
 
 class HTMLExtractor extends Extractor {
   late Document _document;
