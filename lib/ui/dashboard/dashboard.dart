@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:parry_front/controllers/controller_dashboard/controller_dashboard.dart';
 import 'package:parry_front/ui/colors_app.dart';
+import 'package:parry_front/ui/dashboard/view_graphics.dart';
 import 'package:parry_front/ui/dashboard/view_numbers_totais.dart';
 
 class Dashboard extends StatelessWidget {
   Dashboard({super.key});
   final ControllerDashboard controller = ControllerDashboard();
+  final _controller_page = PageController(initialPage: 0, keepPage: true);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,13 @@ class Dashboard extends StatelessWidget {
           child: Center(
             child: IconButton(
               color: ColorsApp.black.color,
-              onPressed: (){},
+              onPressed: () {
+                if(_controller_page.page == 0) {
+                  _controller_page.jumpToPage(1);
+                  return;
+                }
+                _controller_page.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+              },
               icon: Icon(Icons.arrow_back_ios_sharp)
             ),
           ),
@@ -43,8 +51,11 @@ class Dashboard extends StatelessWidget {
                   height: double.infinity,
                   width: double.infinity,
                   child: PageView(
+                    controller: _controller_page,
+                    physics: NeverScrollableScrollPhysics(),
                     children: [
-                      ViewNumbersTotais(controller: controller)
+                      ViewNumbersTotais(controller: controller),
+                      ViewGraphics(controller: controller)
                     ],
                   ),
                 ),
@@ -57,7 +68,13 @@ class Dashboard extends StatelessWidget {
           child: Center(
             child: IconButton(
               color: ColorsApp.black.color,
-              onPressed: (){},
+              onPressed: (){
+                if(_controller_page.page == 1) {
+                  _controller_page.jumpToPage(0);
+                  return;
+                }
+                _controller_page.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+              },
               icon: Icon(Icons.arrow_forward_ios_sharp)
             ),
           ),

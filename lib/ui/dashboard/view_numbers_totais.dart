@@ -10,13 +10,17 @@ class ViewNumbersTotais extends StatefulWidget {
   State<StatefulWidget> createState() => _ViewNumbersTotais();
 }
 
-class _ViewNumbersTotais extends State<ViewNumbersTotais> {
+class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliveClientMixin {
   bool loading = true;
   var number_of_people = 0;
   var number_of_productions = 0;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     widget.controller.data.then(
       (data){
