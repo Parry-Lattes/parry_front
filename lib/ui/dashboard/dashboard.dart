@@ -52,7 +52,7 @@ class Dashboard extends StatelessWidget {
                   width: double.infinity,
                   child: PageView(
                     controller: _controller_page,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: ScrollPhysics(),
                     children: [
                       ViewNumbersTotais(controller: controller),
                       ViewGraphics(controller: controller)

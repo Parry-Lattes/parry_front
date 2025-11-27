@@ -12,8 +12,6 @@ class ViewNumbersTotais extends StatefulWidget {
 
 class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliveClientMixin {
   bool loading = true;
-  var number_of_people = 0;
-  var number_of_productions = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -22,13 +20,13 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
   Widget build(BuildContext context) {
     super.build(context);
 
-    widget.controller.data.then(
-      (data){
-        setState(() {
-          number_of_people = data.number_of_people;
-          number_of_productions = data.number_of_productions;
-          loading = false;
-        });
+    widget.controller.loading_data.then(
+      (result){
+        if(result == true) {
+          setState(() {
+            loading = false;
+          });
+        }
       }
     );
 
@@ -49,10 +47,11 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
           height: 200,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 20,
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsGeometry.all(10),
+                  padding: EdgeInsetsGeometry.all(15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 10,
@@ -60,14 +59,14 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
                       Text(
                         'Total de currículos cadastrados:',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           color: ColorsApp.grey1.color,
                         ),
                       ),
                       Text(
-                        '$number_of_people',
+                        '${widget.controller.numbers_totais.$1}',
                         style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 50,
                           color: ColorsApp.grey1.color,
                           fontWeight: FontWeight.bold
                         )
@@ -82,7 +81,7 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsGeometry.all(20),
+                  padding: EdgeInsetsGeometry.all(15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 10,
@@ -90,14 +89,14 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
                       Text(
                         'Total de produções cadastradas:',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           color: ColorsApp.grey1.color
                         ),
                       ),
                       Text(
-                        '$number_of_productions',
+                        '${widget.controller.numbers_totais.$2}',
                         style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 50,
                           color: ColorsApp.grey1.color,
                           fontWeight: FontWeight.bold
                         )
