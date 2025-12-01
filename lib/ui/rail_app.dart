@@ -15,6 +15,7 @@ class _RailApp extends State<RailApp> {
   static const double _width_left = 80;
 
   int _index = 0;
+  final List<List<Widget>> _actions_buttons = List.empty(growable: true);
   final List<String> _title_context = List.from(<String>{'Dashboard','Coleta de currículos','Gerar relatório'});
   final _page_controller = PageController(initialPage: 0);
   late PageView _page_view;
@@ -28,6 +29,16 @@ class _RailApp extends State<RailApp> {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[Dashboard(),Collector(),RapporteurGenerator()],
     );
+
+    _actions_buttons.addAll(
+      [
+        [],
+        [
+          IconButton(onPressed: (){}, icon: Icon(Icons.search))
+        ],
+        []
+      ]
+    );
   }
 
   @override
@@ -37,6 +48,7 @@ class _RailApp extends State<RailApp> {
       appBar: AppBar(
         leading: IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
         leadingWidth: _width_left,
+        actions: _actions_buttons[_index],
         //foregroundColor: ColorsApp.grey1.color,
         title: Text(_title_context[_index]),
 
