@@ -1,5 +1,7 @@
+import 'package:parry_front/controllers/controller_dashboard/productions_by_type.dart';
 import 'package:parry_front/controllers/controller_dashboard/productions_by_year.dart';
 import 'package:parry_front/controllers/controller_dashboard/struct_data.dart';
+import 'package:parry_front/core/lattes_entitys/production.dart';
 
 class ControllerDashboard {
   StructData data = StructData();
@@ -15,7 +17,7 @@ class ControllerDashboard {
 
     final total_productions = productions_year["total_producoes"];
     final qtd_collaborators = productions_year["qtd_contribuintes"];
-    final qtd_bibliographic = productions_year["Bibliográficas"];
+    final qtd_bibliographic = productions_year["Bibliográfica"];
     final qtd_technique = productions_year["Técnica"];
     final qtd_patent = productions_year["Patente"];
     final qtd_other = productions_year["Outro"];
@@ -36,6 +38,37 @@ class ControllerDashboard {
       qtd_patent: qtd_patent,
       qtd_other: qtd_other
     );
+  }
+
+  ProductionsByType _get_productions_by_type(TypeProduction type) {
+    int total_productions = 0;
+    Map<int,int> qtd_by_year = {};
+
+    for (final entrie in data.details.entries) {
+      final data_year = entrie.value;
+      int? qtd_type_in_year = data_year[type.text_type];
+      if(qtd_type_in_year == null) {continue;}
+
+      total_productions += qtd_type_in_year;
+      qtd_by_year[entrie.key] = qtd_type_in_year;
+    }
+
+    return ProductionsByType(
+      type: type,
+      total_productions: total_productions,
+      qtd_by_year: qtd_by_year,
+    );
+  }
+
+  List<ProductionsByType> get productions_by_type {
+    final list_data = List<ProductionsByType>.empty(growable: true);
+
+    list_data.add(_get_productions_by_type(TypeProduction.bibliographic));
+    list_data.add(_get_productions_by_type(TypeProduction.technique));
+    list_data.add(_get_productions_by_type(TypeProduction.patent));
+    list_data.add(_get_productions_by_type(TypeProduction.other));
+
+    return list_data;
   }
 
   List<ProductionsByYear> get productions_by_year {

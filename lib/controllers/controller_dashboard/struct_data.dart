@@ -4,7 +4,7 @@ class StructData {
   final Map<int,Map<String,int>> details = {
         2021: {
             "qtd_contribuintes": 6,
-            "Bibliográficas": 54,
+            "Bibliográfica": 54,
             "Técnica": 4,
             "Patente": 25,
             "Outro": 0,
@@ -12,7 +12,7 @@ class StructData {
         },
         2022: {        
             "qtd_contribuintes": 8,
-            "Bibliográficas": 31,
+            "Bibliográfica": 31,
             "Técnica": 11,
             "Patente": 14,
             "Outro": 3,
@@ -20,7 +20,7 @@ class StructData {
         },
         2023: {
             "qtd_contribuintes": 11,
-            "Bibliográficas": 12,
+            "Bibliográfica": 12,
             "Técnica": 0,
             "Patente": 56,
             "Outro": 24,
