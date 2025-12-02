@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/spreadsheet.dart';
+import 'package:parry_front/ui/colors_app.dart';
 
 class ReviewData extends StatelessWidget {
   final List<Extractor> extrators;
@@ -38,14 +39,16 @@ class ReviewData extends StatelessWidget {
 
     final controller_scroll = ScrollController();
 
-    return Scrollbar(
+    return RawScrollbar(
       controller: controller_scroll,
+      thumbColor: ColorsApp.grey1.color,
       thumbVisibility: true, // Força a visibilidade
-      trackVisibility: true, // Mostra a trilha também
+      trackVisibility: true, // Mostra a trilha também,
       thickness: 8.0, // Espessura da barra
       radius: Radius.circular(10),
 
       child: ListView(
+
         controller: controller_scroll,
         children: spreads,
       )

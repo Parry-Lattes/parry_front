@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/core/lattes_entitys/production.dart';
 import 'package:parry_front/tools/convert_data.dart';
+import 'package:parry_front/ui/collector/spreadsheet/select_type.dart';
 import 'package:parry_front/ui/my_widgets/button_data_picker.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_table_production.dart';
 import 'package:parry_front/ui/my_widgets/edit_list_text.dart';
@@ -149,15 +149,9 @@ class TableProduction extends StatelessWidget {
                   verticalAlignment: TableCellVerticalAlignment.middle,
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
-                    child: DropdownButton<TypeProduction>(
-                      items: TypeProduction.values.map<DropdownMenuItem<TypeProduction>>((TypeProduction value) {
-                        return DropdownMenuItem<TypeProduction>(value: value, child: Text(value.text_type));
-                      }).toList(),
-                      value: controller.type,
-                      onChanged: (value) {
-                        if (value != null) {controller.type = value;}
-                      }
-                    ),
+                    child: SelectType(initial_value: controller.type, on_changed: (value){
+                      controller.type = value;
+                    }),
                   ),
                 )
               ]
