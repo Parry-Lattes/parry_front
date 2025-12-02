@@ -1,6 +1,8 @@
 import 'package:parry_front/core/lattes_entitys/lattes_entity.dart';
 
 class Production extends LattesEntity {
+  List<String> _coautors = List.empty();
+
   Production(
     String autor,
     List<String> coautores,
@@ -9,9 +11,16 @@ class Production extends LattesEntity {
     TypeProduction type,
     String hash
   ) {
+    final map_coautors = <Map<String,Map<String,String>>> [];
+    _coautors = coautores;
+
+    for(final c in coautores) {
+      map_coautors.add({'abreviatura': {'abreviatura': c}});
+    }
+
     attributes = {
       'autor': autor,
-      'coautores': coautores,
+      'coautores': map_coautors,
       'titulo': title,
       'data_de_publicacao': date_pub,
       'tipo_s': type.text_type,
@@ -20,7 +29,7 @@ class Production extends LattesEntity {
   }
 
   String get autor => attributes['autor'];
-  List<String> get coautores => attributes['coautores'];
+  List<String> get coautores => _coautors;
   String get title => attributes['titulo'];
   String get date_pub => attributes['data_de_publicacao'];
   TypeProduction get type {

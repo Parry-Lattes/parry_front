@@ -86,6 +86,24 @@ class ControllerDashboard {
     return list_data;
   }
 
+  int get year_highest_production {
+    int highest_value = 0;
+    int year_highest_production = 0;
+    for (final entrie in data.details.entries) {
+      final year = entrie.key;
+      final value = entrie.value['total_producoes'];
+      if(value == null) {
+        continue;
+      }
+      if(value > highest_value) {
+        year_highest_production = year;
+        highest_value = value;
+      }
+    }
+
+    return year_highest_production;
+  }
+
   Future<bool> get loading_data async {
     await Future.delayed(Duration(seconds: 3)); //um pequeno delay
     

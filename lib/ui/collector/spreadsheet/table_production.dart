@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parry_front/core/lattes_entitys/production.dart';
 import 'package:parry_front/tools/convert_data.dart';
 import 'package:parry_front/ui/my_widgets/button_data_picker.dart';
-import 'package:parry_front/controllers/controller_table_production.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_table_production.dart';
 import 'package:parry_front/ui/my_widgets/edit_list_text.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
@@ -69,8 +69,7 @@ class TableProduction extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
                     child: TextField(
-                      controller: TextEditingController(text: controller.title),
-                      onChanged: (value) => controller.title = value,
+                      controller: controller.title,
                       style: _edit_text_style,
                     ),
                   )
@@ -88,8 +87,7 @@ class TableProduction extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
                     child: TextField(
-                      controller: TextEditingController(text: controller.autor),
-                      onChanged: (value) => controller.autor = value,
+                      controller: controller.autor,
                       style: _edit_text_style,
                     ),
                   )

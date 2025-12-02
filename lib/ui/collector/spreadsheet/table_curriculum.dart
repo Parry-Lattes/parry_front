@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:parry_front/tools/convert_data.dart';
 import 'package:parry_front/ui/collector/spreadsheet/list_productions.dart';
 import 'package:parry_front/ui/my_widgets/button_data_picker.dart';
-import 'package:parry_front/controllers/controller_table_curriculum.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_table_curriculum.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
 class TableCurriculum extends StatelessWidget {
@@ -75,8 +75,7 @@ class TableCurriculum extends StatelessWidget {
                       child: TextField(
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        controller: TextEditingController(text: '${controller.id_lattes}'),
-                        onChanged: (value) => controller.id_lattes = int.tryParse(value)!,
+                        controller: controller.id_lattes,
                         style: _edit_text_style,
                       ),
                     )

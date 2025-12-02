@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/controllers/controller_spreadsheet.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/table_curriculum.dart';
 import 'package:parry_front/ui/collector/spreadsheet/table_people.dart';
 import 'package:parry_front/ui/colors_app.dart';

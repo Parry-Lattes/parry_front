@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/controllers/controller_table_production.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_table_production.dart';
 import 'package:parry_front/ui/collector/spreadsheet/table_production.dart';
 
 class ListProductions extends StatefulWidget {

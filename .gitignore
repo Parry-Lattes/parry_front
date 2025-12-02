@@ -5,6 +5,7 @@
 .idea/
 testes/
 .packages
+assets/env.env
 build/
 assets/executable/
 # If you're building an application, you may want to check-in your pubspec.lock

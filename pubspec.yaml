@@ -39,9 +39,10 @@ dependencies:
   pdf: ^3.11.3
   syncfusion_flutter_pdf: ^31.2.4
   file_picker: ^10.3.3
-  http: ^1.5.0
+  http: ^1.6.0
   puppeteer: ^3.20.0
   syncfusion_flutter_charts: ^31.2.12
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/env.env
     - assets/imagens/
     - assets/texts/
     - assets/executable/chrome-linux/

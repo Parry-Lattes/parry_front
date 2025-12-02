@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/controllers/controller_table_people.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_table_people.dart';
 import 'package:parry_front/ui/my_widgets/edit_list_text.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
@@ -69,8 +69,7 @@ class TablePeople extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsetsGeometry.all(5),
                       child: TextField(
-                        controller: TextEditingController(text: controller.name),
-                        onChanged: (value) => controller.name = value,
+                        controller: controller.name,
                         style: _edit_text_style,
                       ),
                     )
@@ -88,8 +87,7 @@ class TablePeople extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsetsGeometry.all(5),
                       child: TextField(
-                        controller: TextEditingController(text: controller.nationality),
-                        onChanged: (value) => controller.nationality = value,
+                        controller: controller.nationality,
                         style: _edit_text_style,
                       ),
                     )

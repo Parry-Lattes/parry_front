@@ -2,8 +2,8 @@ import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/core/lattes_entitys/people.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/core/scrapper/scrapper.dart';
-import 'package:parry_front/controllers/controller_table_curriculum.dart';
-import 'package:parry_front/controllers/controller_table_people.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_table_curriculum.dart';
+import 'package:parry_front/controllers/controller_spreadsheet/controller_table_people.dart';
 
 class ControllerSpreadsheet {
   late Extractor _extractor;
@@ -12,6 +12,16 @@ class ControllerSpreadsheet {
 
   ControllerSpreadsheet(Extractor extractor) {
     _extractor = extractor;
+  }
+
+  (Curriculum,People) get data {
+    final curriculum = controller_curriculum.curriculum;
+
+    final p = controller_people.people;
+
+    final people = People(p.name, curriculum.id_lattes, p.abbreviations, p.nacionality);
+
+    return (curriculum,people);
   }
 
   Future<(Curriculum,People)> load_data() async {

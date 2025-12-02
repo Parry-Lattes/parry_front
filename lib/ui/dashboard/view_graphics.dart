@@ -121,9 +121,26 @@ class _ViewGraphics extends State<ViewGraphics> with AutomaticKeepAliveClientMix
                     )
                   ),
                   Expanded(
-                    child: Text(
-                      'adnvaon',
-                      style: TextStyle(color: ColorsApp.grey1.color),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        Text(
+                          'Ano com maior número de produções:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: ColorsApp.grey1.color,
+                          ),
+                        ),
+                        Text(
+                          '${widget.controller.year_highest_production}',
+                          style: TextStyle(
+                            fontSize: 50,
+                            color: ColorsApp.grey1.color,
+                            fontWeight: FontWeight.bold
+                          )
+                        )
+                      ],
                     )
                   )
                 ],
