@@ -8,7 +8,6 @@ class ControllerTableProduction {
   TextEditingController title = TextEditingController(text: '');
   String date_pub = '2006'; //valor padrao aqui pra nao gerar problemas de valor nulo
   TypeProduction type = TypeProduction.other;
-  String hash = '';
 
   ControllerTableProduction([Production? p]) {
     if(p == null) {return;}
@@ -17,7 +16,7 @@ class ControllerTableProduction {
   }
 
   Production get production {
-    return Production(autor.text, _edit_coautores.list_text, title.text, date_pub, type, hash);
+    return Production(autor.text, _edit_coautores.list_text, title.text, date_pub, type);
   }
 
   set production(Production p) {
@@ -26,7 +25,6 @@ class ControllerTableProduction {
     title = TextEditingController(text: p.title);
     date_pub = p.date_pub;
     type = p.type;
-    hash = p.hash;
   }
 
   ControllerEditListText get controller_coautores => _edit_coautores;

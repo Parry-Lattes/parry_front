@@ -8,6 +8,7 @@ import 'package:parry_front/core/scrapper/lexer/lexer.dart';
 import 'package:parry_front/core/scrapper/parser_production.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 import 'package:parry_front/core/scrapper/struct_lattes/title.dart';
+import 'package:parry_front/tools/convert_data.dart';
 import 'package:parry_front/tools/text_tools.dart';
 
 class Scrapper {
@@ -70,7 +71,9 @@ class Scrapper {
       //se sim, vamos tentar retornar ela
       if(result != null) {
         try{
-          return result.group(0)!;
+          var last_update = result.group(0)!.replaceAll('/', '-');
+          last_update = date_to_string(string_to_date(last_update)!);
+          return last_update;
         } catch (e) {
           continue;
         }
@@ -168,55 +171,6 @@ class Scrapper {
     return 'Brasil';
   }
 
-  String _search_key_product(final String text) {
-    //primeiro, vamos buscar pelo possivel codigo de registro de patente
-    final text_lower_case = clean_spaces(text.toLowerCase()); //para simplificar as buscas
-
-    //geralmente, o texto que precede o numero do registro de patente e
-    //'Numero do registro:', por isso, vamos buscar pelo desse texto
-    final pos = text_lower_case.indexOf('registro:'); 
-    if(pos > 0) { //se a posicao for menor ou igual a zero, provavelmente tem algo errado
-      //logo depois do texto que procuramos, deve haver o registro da patente
-      final sub_text = text_lower_case.substring(pos).replaceFirst('registro:', ''); 
-      if(sub_text.substring(0,2) == 'br') { //todo registro de patente comeca com BR
-        //vamos pegar o codigo numerico do registro
-        var text_number = '';
-        for(int i = 2; i < sub_text.length - 2; i++) {
-          final char = sub_text[i];
-          if(is_algarism(char)) {
-            text_number += char;
-          } else if(char == '-') {
-            text_number += sub_text.substring(i,i+2);
-            break;
-          } else {
-            break;
-          }
-        }
-
-        //agora basta retornar o que encontramos
-        return 'BR$text_number';
-      }
-    }
-
-    return '';
-  }
-
-  String _generat_hash_production (String autor, List<String> coautores, String title, String data_pub){
-    //isso aqui e um falso gerador de hash
-    //espero que o emanuel nao tente ver exatamente o que e o tal hash que eu to criando
-    String hash = remove_points_chars(clean_spaces(autor.toLowerCase()));
-    hash += remove_points_chars(clean_spaces(title.toLowerCase()));
-
-    for(final c in coautores) {
-      hash += remove_points_chars(clean_spaces(c.toLowerCase()));
-    }
-
-    hash += data_pub;
-
-    //sim, meu tal hash e apenas um compilado das informacoes base
-    return hash;
-  }
-
   Production? _scrapping_production(String text_production, TypeProduction type_producition) {
     //print(text_production);
     final lexer = Lexer(text: text_production);
@@ -236,13 +190,7 @@ class Scrapper {
 
     coautores.sort();
 
-    var hash = _search_key_product(text_production);
-
-    if(hash == '') {
-      hash = _generat_hash_production(autor, coautores, title,data_pub);
-    }
-
-    return Production(autor, coautores, title, data_pub, type_producition, hash);
+    return Production(autor, coautores, title, data_pub, type_producition);
   }
 
   List<Production> _search_productions() {

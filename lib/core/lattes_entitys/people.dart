@@ -17,13 +17,13 @@ class People extends LattesEntity{
 
     attributes = {
       'nome': name,
-      'id_lattes': id_lattes,
+      'id_lattes': '$id_lattes',
       'abreviaturas': map_abbreviations,
       'nacionalidade': nationality
     };
   }
 
-  int get id_lattes => attributes['id_lattes'];
+  String get id_lattes => attributes['id_lattes'];
   String get name => attributes['nome'];
   List<String> get abbreviations => _abbreviations;
   String get nacionality => attributes['nacionalidade'];

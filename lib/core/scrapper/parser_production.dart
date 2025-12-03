@@ -93,7 +93,7 @@ class ParserProduction {
     if(_expect_token(TypeToken.number)) {
       int number = _next_token().value;
 
-      if(number > 1900) {
+      if(number > 1900 && number <= DateTime.now().year) {
         return '$number';
       }
 

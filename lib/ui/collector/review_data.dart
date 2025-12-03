@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parry_front/core/api_interface/api_interface.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/spreadsheet.dart';
@@ -8,6 +9,7 @@ class ReviewData extends StatelessWidget {
   final List<Extractor> extrators;
   ReviewData({super.key,required this.extrators});
   final controllers_spreads = List<ControllerSpreadsheet>.empty(growable: true);
+  final upload_people = ApiInterface.upload_people;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +27,21 @@ class ReviewData extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: () {
             for(final c in controllers_spreads) {
-              final (people,curriculum) = c.data;
-
+              final (curriculum,people) = c.data;
               print(people.json);
-              print(curriculum.json);
+
+              //envio os dados, e verifico se isso foi bem sucedido
+              upload_people.send_data(people.json).then(
+                (result) {
+                  if(true) {
+                    //se o envio de dados foi bem sucedido, então eu tento salvar o currículo também
+                    ApiInterface.upload_curriculum(curriculum.id_lattes)
+                      .send_data(curriculum.json);}
+                  // } else {
+                  //   print('deu merda em: ${people.name}');
+                  // }
+                }
+              );
             }
           },
           label: Text('Upload'),
