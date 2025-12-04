@@ -20,15 +20,17 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
   Widget build(BuildContext context) {
     super.build(context);
 
-    widget.controller.loading_data.then(
-      (result){
-        if(result == true) {
-          setState(() {
-            loading = false;
-          });
+    if(loading) {
+      widget.controller.loading_data.then(
+        (result){
+          if(result == true) {
+            setState(() {
+              loading = false;
+            });
+          }
         }
-      }
-    );
+      );
+    }
 
     return loading
       ?Center(

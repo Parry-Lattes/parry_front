@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:parry_front/controllers/controller_dashboard/productions_by_type.dart';
 import 'package:parry_front/controllers/controller_dashboard/productions_by_year.dart';
 import 'package:parry_front/controllers/controller_dashboard/struct_data.dart';
+import 'package:parry_front/core/api_interface/api_interface.dart';
 import 'package:parry_front/core/lattes_entitys/production.dart';
 
 /*
@@ -15,6 +18,7 @@ class ControllerDashboard {
    cadastradas no banco de dados. O segundo número é a quantidade de produções cadastradas no banco de dados.
    */
   (int,int) get numbers_totais => (data.number_of_people,data.number_of_productions);
+  int get qtd_curriculums_updated => data.qtd_updated;
   
   /*
    Função simples, que recebe como argumento o ano desejado e retorna a estrutura de estatísticas referentes aquele ano.
@@ -137,8 +141,50 @@ class ControllerDashboard {
     return year_highest_production;
   }
 
+  Map<int,Map<String,int>>? _get_detail(dynamic json_detail) {
+
+    try {
+      Map<int,Map<String,int>> result = {};
+
+      for(MapEntry<String,dynamic> entry in json_detail.entries) { //vamos começar tentando iterar sobre os filhos do json
+        int? year = int.tryParse(entry.key); //pegamos pegar a chave do ano, e converter para int
+        if(year == null) { continue; } //se for nula, apenas continuamos
+
+        Map<String,int> statistics = {};
+        result[year] = statistics;
+        for(MapEntry<String,dynamic> values in entry.value.entries) {
+          if(values.value is! int) {
+            statistics[values.key] = 0;
+            continue;
+          }
+          statistics[values.key] = values.value;
+        }
+      }
+
+      return result;
+    } on Exception {
+      return null;
+    }
+  }
+
+  //carrega os dados para o atributo data. retorna true caso tudo tenha dado certo, e false se deu algum problema
   Future<bool> get loading_data async {
-    await Future.delayed(Duration(seconds: 3)); //um pequeno delay
+    var (result,status) = await ApiInterface.request_in('dashboard');
+
+    if(status != 200) {
+      return false;
+    }
+
+    dynamic result_json = jsonDecode(result);
+
+    int qtd_curriculums = result_json['total_curriculos'];
+    int qtd_productions = result_json['total_producoes'];
+    int qtd_updated = result_json['curriculos_atualizados'];
+
+    Map<int,Map<String,int>>? details = _get_detail(result_json['detalhes']);
+
+
+    data = StructData(qtd_curriculums,qtd_productions,qtd_updated,details);
     
     return true;
   }

@@ -28,7 +28,6 @@ class ReviewData extends StatelessWidget {
           onPressed: () {
             for(final c in controllers_spreads) {
               final (curriculum,people) = c.data;
-              print(people.json);
 
               //envio os dados, e verifico se isso foi bem sucedido
               upload_people.send_data(people.json).then(

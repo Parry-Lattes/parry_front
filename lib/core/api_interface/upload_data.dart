@@ -22,8 +22,6 @@ class UploadData {
   Future<bool> send_data(String data) async {
     final response = await http.post(uri, headers: {'Content-Type': 'application/json; charset=UTF-8'}, body: data, encoding: utf8);
 
-    print('response: ${response.body}');
-
     if(response.body == 'null') {
       return true;
     }

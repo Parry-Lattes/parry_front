@@ -12,10 +12,10 @@ abstract class ApiInterface {
    uma vez que a função só precisa da rota.
    Retorna uma String com o corpo do resultado
    */
-  static Future<String> request_in(String path) async {
-    final response = await http.get(_get_url(path)); 
+  static Future<(String,int)> request_in(String path) async {
+    final response = await http.get(_get_url(path));
     
-    return response.body;
+    return (response.body,response.statusCode);
   }
 
   static Uri _get_url(String path) {return Uri.http('$address',path);}

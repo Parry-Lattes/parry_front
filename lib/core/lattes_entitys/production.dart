@@ -25,7 +25,7 @@ class Production extends LattesEntity {
       'coautores': map_coautors,
       'titulo': title,
       'data_de_publicacao': date_pub.substring(0,4),
-      'tipo_s': type.text_type
+      'tipo': type.text_type
     };
   }
 
@@ -34,7 +34,7 @@ class Production extends LattesEntity {
   String get title => attributes['titulo'];
   String get date_pub => _date_pub;
   TypeProduction get type {
-    switch (attributes['tipo_s']) {
+    switch (attributes['tipo']) {
       case 'Bibliográfica':
         return TypeProduction.bibliographic;
       case 'Técnica':

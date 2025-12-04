@@ -126,14 +126,14 @@ class _ViewGraphics extends State<ViewGraphics> with AutomaticKeepAliveClientMix
                       spacing: 10,
                       children: [
                         Text(
-                          'Ano com maior número de produções:',
+                          'Currículos atualizados nos últimos 3 meses:',
                           style: TextStyle(
                             fontSize: 18,
                             color: ColorsApp.grey1.color,
                           ),
                         ),
                         Text(
-                          '${widget.controller.year_highest_production}',
+                          '${widget.controller.qtd_curriculums_updated}',
                           style: TextStyle(
                             fontSize: 50,
                             color: ColorsApp.grey1.color,
