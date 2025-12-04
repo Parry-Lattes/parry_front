@@ -4,13 +4,14 @@ import 'package:parry_front/core/scrapper/struct_lattes/struct_lattes.dart';
 import 'package:parry_front/tools/text_tools.dart';
 
 abstract class Extractor {
-  Future load(Object o);
-  StructLattes extract_data();
   var titles = List<String>.empty(growable: true);
 
   Extractor() {
     _load_titles();
   }
+
+  Future load(Object o);
+  StructLattes extract_data();
 
   void _load_titles() {
     final lines_titles = File('assets/texts/titles_lattes.txt').readAsStringSync().toLowerCase();

@@ -18,7 +18,7 @@ class Token {
  * Word: um conjunto qualquer de letras consecutivas
  * Pointer: pontos como , . : ;
  * Number: obviamente numeros, mas aqui nao trabalhamos
- * com numero negativos ou decimais, nao tem necessidade
+   com numero negativos ou decimais, nao tem necessidade
  * Separator: separadores como parenteses e barras
  * Other: qualquer caractere que nao se enquadre nestas descricoes
  * End: final do texto

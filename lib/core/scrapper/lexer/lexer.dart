@@ -33,7 +33,7 @@ class Lexer {
   }
 
   //assemble word
-  Token ass_word() {
+  Token _ass_word() {
     String value = _current_char(); //inicializo a string de resultado
     while(is_letter(_spy_char())) {
       value += _next_char();
@@ -43,7 +43,7 @@ class Lexer {
   }
 
   //assemble number
-  Token ass_number() {
+  Token _ass_number() {
     String text_number = _current_char();
     int value = 0; //inicializo a string de resultado
     while (is_algarism(_spy_char())) {
@@ -97,13 +97,13 @@ class Lexer {
       if(char == ' '){continue;}
 
       if(is_letter(char)) {
-        list_tokens.add(ass_word());
+        list_tokens.add(_ass_word());
 
         continue;
       }
 
       if(is_algarism(char)) {
-        list_tokens.add(ass_number());
+        list_tokens.add(_ass_number());
 
         continue;
       }

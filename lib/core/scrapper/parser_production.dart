@@ -2,22 +2,22 @@ import 'package:parry_front/core/scrapper/lexer/token.dart';
 
 class ParserProduction {
   final List<Token> tokens;
-  int counter = -1;
+  int _counter = -1;
 
 
   ParserProduction({required this.tokens});
 
   Token _current_token() {
-    return tokens[counter];
+    return tokens[_counter];
   }
 
   Token _next_token() {
-    counter++;
-    return tokens[counter];
+    _counter++;
+    return tokens[_counter];
   }
 
   Token _spy_token() {
-    return tokens[counter+1];
+    return tokens[_counter+1];
   }
 
   bool _expect_token(TypeToken t) {

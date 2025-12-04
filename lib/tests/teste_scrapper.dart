@@ -42,16 +42,16 @@ void test_extract_pdf() async {
   file.writeAsStringSync(str);
 }
 
-void test_pdf() {
-  final extractor = PDFExtractor();
-  extractor.load('./assets/testes_pdf/lattes_jc.pdf');
+// void test_pdf() {
+//   final extractor = PDFExtractor();
+//   extractor.load('./assets/testes_pdf/lattes_jc.pdf');
 
-  final lines = extractor.extrator.extractTextLines(endPageIndex: 0,startPageIndex: 0);
-  for(final line in lines) {
-    final position_top_line = line.bounds.top;
-    print('$position_top_line:${line.text}');
-  }
-}
+//   final lines = extractor.extrator.extractTextLines(endPageIndex: 0,startPageIndex: 0);
+//   for(final line in lines) {
+//     final position_top_line = line.bounds.top;
+//     print('$position_top_line:${line.text}');
+//   }
+// }
 
 void test_lexer() {
   const citacao = 'AMARAL, W. A. ; CASTRO, F. ; COELHO, S. T. ; GOES, M. A. ; HAMANAKA, C. O. ; I. C. S., ; J. L. E., ; MORAES, W. B. ; PEREIRA, M. D. ; PINTO, R. L. O. ; PONCHET, A. F. ; SANCHEZ, E. A. C. ; SILVA, J. C. ; SPILLER, L. H. ; XIMENES, A. R. ; YAMAMOTO, S. D. ; LIMA, R. N. ; SOBRAL, V. A. L. . A 2.4GHz transceiver for wireless sensor network. In: 2012 International Caribbean Conference on Devices, Circuits and Systems (ICCDCS), 2012, Playa del Carmen. 2012 8th International Caribbean Conference on Devices, Circuits and Systems (ICCDCS), 2012.'; //apenas para teste

@@ -105,7 +105,7 @@ class Scrapper {
     return '';
   }
 
-  List<String> _colect_abbreviations(int start, int end) {
+  List<String> _collect_abbreviations(int start, int end) {
     final lines = struct.range_lines(start,end);
     String concat_lines = '';
 
@@ -149,7 +149,7 @@ class Scrapper {
     }
 
     //print("start: $start, end: $end");
-    return _colect_abbreviations(start, end);
+    return _collect_abbreviations(start, end);
   }
 
   String _search_nacionality() {

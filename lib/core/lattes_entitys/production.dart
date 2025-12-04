@@ -27,8 +27,6 @@ class Production extends LattesEntity {
       'data_de_publicacao': date_pub.substring(0,4),
       'tipo_s': type.text_type
     };
-
-    print(attributes['data_de_publicacao']);
   }
 
   String get autor => attributes['autor'];
