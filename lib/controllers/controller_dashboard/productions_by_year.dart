@@ -1,9 +1,10 @@
 
 /*
- * O objetivo e ter os dados de uma forma organzida nas classes
- * Esta em especifico organiza os dados relativos a um unico ano,
- * e contem informacoes quanto ao numero de producoes para cada tipo,
- * o numero de colaboratores e o total de producoes para aquele ano
+ Objeto que representa as estatísticas de produções em um ano específico
+ O campo year informa o ano sobre o qual os dados são referentes
+ O campo total_productions informa quantas produções foram publicadas naquele ano
+ O campo qtd_collaborators representa quantas pessoa fizeram alguma publicação no ano
+ O demais campos representam a quantidade de produções de um tipo específico no ano
  */
 class ProductionsByYear {
   final int year;

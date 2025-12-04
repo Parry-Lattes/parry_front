@@ -15,7 +15,7 @@ class ReviewData extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> spreads = List.empty(growable: true);
     for(final e in extrators) {
-      final controller = ControllerSpreadsheet(e);
+      final controller = ControllerSpreadsheet(extractor: e);
       spreads.add(Spreadsheet(controller: controller));
       controllers_spreads.add(controller);
     }

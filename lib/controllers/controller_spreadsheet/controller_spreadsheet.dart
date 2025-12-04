@@ -5,15 +5,23 @@ import 'package:parry_front/core/scrapper/scrapper.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_table_curriculum.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_table_people.dart';
 
+/*
+ Controller para a planilha de dados que serão editados
+ Possui, internamente, dois controllers, um para a tabela de Pessoa
+ e outro para a tabela de Curriculo.
+ É obrigatório informar o extrator que será utilizado na sua construção
+ */
 class ControllerSpreadsheet {
-  late Extractor _extractor;
+  final Extractor extractor;
   final controller_people = ControllerTablePeople();
   final controller_curriculum = ControllerTableCurriculum();
 
-  ControllerSpreadsheet(Extractor extractor) {
-    _extractor = extractor;
-  }
+  ControllerSpreadsheet({required this.extractor});
 
+  /*
+   Retorna os dados depois de editados, ou seja, retorna os dados que estão no estado atual da planilha.
+   Será utilizado na hora de fazer upload dos dados
+   */
   (Curriculum,People) get data {
     final curriculum = controller_curriculum.curriculum;
 
@@ -24,9 +32,10 @@ class ControllerSpreadsheet {
     return (curriculum,people);
   }
 
+  //carrega os dados do extrator e retorna eles. Será utilizado pelo widget
   Future<(Curriculum,People)> load_data() async {
-    await Future.delayed(Duration(seconds: 2));
-    final struct = _extractor.extract_data();
+    await Future.delayed(Duration(seconds: 2)); //esse delay é necessário para que o widget seja corretamente construído
+    final struct = extractor.extract_data();
 
     final scrapper = Scrapper(struct);
     return scrapper.scrapping();

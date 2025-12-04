@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:parry_front/core/lattes_entitys/people.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_edit_list_text.dart';
 
+/*
+ Controller da tabela de pessoa. Possui o controller da lista de abreviaturas
+ possíveis para a pessoa.
+ Possui também um controller para o campo de texto do nome, e um controller pro campo de texto da
+ nacionalidade.
+ */
 class ControllerTablePeople {
   //este controller possui outro controller, porque a edicao da lista de abreviacoes vem de outro widget
   //e, durante a criacao do widget EditListText, o controller de TablePessoa vai pedir ao proprio controller pelo

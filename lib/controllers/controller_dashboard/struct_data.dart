@@ -1,3 +1,7 @@
+/*
+ Objeto que representa os dados que serão usados pelo dashboard
+ Por hora está guardando valores prontos
+ */
 class StructData {
   final int number_of_people = 15;
   final int number_of_productions = 231;
