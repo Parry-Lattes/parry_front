@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_table_production.dart';
 import 'package:parry_front/ui/collector/spreadsheet/table_production.dart';
+import 'package:parry_front/ui/colors_app.dart';
 
 class ListProductions extends StatefulWidget {
   final List<ControllerTableProduction> controllers;
@@ -55,7 +56,10 @@ class _ListProductions extends State<ListProductions> {
                 Expanded(child: Container()),
                 TextButton.icon(
                   onPressed: (){_remove_table(table);},
-                  icon: Icon(Icons.remove_circle_outline),
+                  icon: Icon(
+                    Icons.remove_circle_outline,
+                    color: ColorsApp.red.color,
+                  ),
                   label: Text('Remover')
                 )
               ],

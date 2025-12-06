@@ -70,70 +70,104 @@ class SelectCollector extends StatelessWidget {
     });
   }
 
-  void _select_pages_html(BuildContext context) {
+  void _select_pages_html(BuildContext context) async {
     //faco o navegador
-    WebNavigator.init_navigator('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar');
-    Map<String,String> pages_html = {};
-
-    showDialog(
-      context: context,
-      builder: (BuildContext builder) {
-        return AlertDialog(
-          constraints: BoxConstraints(
-            maxHeight: 250
-          ),
-          title: Text('Abra os currículos'),
-          content: Column(
-            children: [
-              SizedBox(
-                height: 100,
-                width: 300,
-                child: Text('Abrimos um navegador para você, abra os currículos que você deseja coletar neles, e depois clique em confirmar')
-              ),
-              ButtonConfirm(
-                action: () async {
-                  pages_html = await WebNavigator.load_pages('Currículo do Sistema de Currículos Lattes');
-                  //await Future.delayed(Duration(seconds: 2));
-                  WebNavigator.close_navigator();
-                }
-              )
-            ],
-          ),
-        );
-      }
-    ).then((value) {
-      if(value == true && context.mounted) {
-        showDialog<List<String>>(
+    try {
+      await WebNavigator.init_navigator('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar');
+    } catch (e) {
+      if(context.mounted) {
+        showDialog(
           context: context,
-          builder: (BuildContext c) {
-            return Dialog(
-              constraints: BoxConstraints(
-                maxHeight: 400,
-                maxWidth: 500
-              ),
+          builder: (BuildContext buider) {
+            return AlertDialog(
               backgroundColor: ColorsApp.grey2.color,
-              child: CheckHtmlPages(pages: pages_html),
+              constraints: BoxConstraints(
+                maxHeight: 250
+              ),
+              title: Text('Erro ao executar o navegador', style: TextStyle(color: ColorsApp.red.color,fontWeight: FontWeight.bold),),
+              content: Column(
+                children: [
+                  SizedBox(
+                    height: 100,
+                    width: 300,
+                    child: Text(e.toString())
+                  ),
+                  ButtonConfirm(
+                    action: () async {}
+                  )
+                ],
+              ),
             );
           }
-        ).then(
-          (list) {
-            if(list != null) {
-              if(list.isNotEmpty) {
-                //vamos criar uma lista de estruturas, e preencher elas com o extrator
-                List<Extractor> structs = List.empty(growable: true);
-                for(final l in list) {
-                  structs.add(getting_extractor(text_html: l)!);
-                }
+        );
+      }
 
-                send_structs(structs);
+      return;
+    }
+
+    Map<String,String> pages_html = {};
+
+    if(context.mounted) {
+      showDialog(
+        context: context,
+        builder: (BuildContext builder) {
+          return AlertDialog(
+            constraints: BoxConstraints(
+              maxHeight: 250
+            ),
+            title: Text('Abra os currículos'),
+            content: Column(
+              children: [
+                SizedBox(
+                  height: 100,
+                  width: 300,
+                  child: Text('Abrimos um navegador para você, abra os currículos que você deseja coletar neles, e depois clique em confirmar')
+                ),
+                ButtonConfirm(
+                  action: () async {
+                    pages_html = await WebNavigator.load_pages('Currículo do Sistema de Currículos Lattes');
+                    //await Future.delayed(Duration(seconds: 2));
+                    WebNavigator.close_navigator();
+                  }
+                )
+              ],
+            ),
+          );
+        }
+      ).then((value) {
+        if(value == true && context.mounted) {
+          showDialog<List<String>>(
+            context: context,
+            builder: (BuildContext c) {
+              return Dialog(
+                constraints: BoxConstraints(
+                  maxHeight: 400,
+                  maxWidth: 500
+                ),
+                backgroundColor: ColorsApp.grey2.color,
+                child: CheckHtmlPages(pages: pages_html),
+              );
+            }
+          ).then(
+            (list) {
+              if(list != null) {
+                if(list.isNotEmpty) {
+                  //vamos criar uma lista de estruturas, e preencher elas com o extrator
+                  List<Extractor> structs = List.empty(growable: true);
+                  for(final l in list) {
+                    structs.add(getting_extractor(text_html: l)!);
+                  }
+
+                  send_structs(structs);
+                }
               }
             }
-          }
-        );
-      } else {
-        WebNavigator.close_navigator();
-      }
-    });
+          );
+        } else {
+          WebNavigator.close_navigator();
+        }
+      });
+    }
   }
 
   @override

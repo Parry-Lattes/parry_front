@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parry_front/ui/collector/collector.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/dashboard/dashboard.dart';
-import 'package:parry_front/ui/rapporteur_generator.dart';
+import 'package:parry_front/ui/rapporteur_generator/rapporteur_generator.dart';
 
 class RailApp extends StatefulWidget{
   const RailApp({super.key});

@@ -29,18 +29,22 @@ class ReviewData extends StatelessWidget {
             for(final c in controllers_spreads) {
               final (curriculum,people) = c.data;
 
-              //envio os dados, e verifico se isso foi bem sucedido
-              upload_people.send_data(people.json).then(
-                (result) {
-                  if(true) {
-                    //se o envio de dados foi bem sucedido, então eu tento salvar o currículo também
-                    ApiInterface.upload_curriculum(curriculum.id_lattes)
-                      .send_data(curriculum.json);}
-                  // } else {
-                  //   print('deu merda em: ${people.name}');
-                  // }
-                }
-              );
+              //primeiro, tentamos deletar o que já tem no banco de dados
+              ApiInterface.delete_data(curriculum.id_lattes)
+                .then((_) {
+                  //envio os dados, e verifico se isso foi bem sucedido
+                  upload_people.send_data(people.json).then(
+                    (result) {
+                      if(true) {
+                        //se o envio de dados foi bem sucedido, então eu tento salvar o currículo também
+                        ApiInterface.upload_curriculum(curriculum.id_lattes)
+                          .send_data(curriculum.json);}
+                      // } else {
+                      //   print('deu merda em: ${people.name}');
+                      // }
+                    }
+                  );
+                });
             }
           },
           label: Text('Upload'),
