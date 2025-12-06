@@ -79,7 +79,6 @@ abstract class ApiInterface {
         dynamic b = c['abreviatura'];
         while(b is! String) {
           b = b['abreviatura'];
-          print(b);
         }
 
 
