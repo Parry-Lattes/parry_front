@@ -51,11 +51,11 @@ class _CheckHtmlPages extends State<CheckHtmlPages> {
     }
 
     return Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           spacing: 15,
           children: [
-            Center(
+            const Center(
               child: Text('Revise as páginas para extração dos dados'),
             ),
             Expanded(
@@ -77,7 +77,7 @@ class _CheckHtmlPages extends State<CheckHtmlPages> {
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(ColorsApp.grey1.color)
                   ),
-                  child: Text('Cancelar')
+                  child: const Text('Cancelar')
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -94,7 +94,7 @@ class _CheckHtmlPages extends State<CheckHtmlPages> {
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(ColorsApp.black.color)
                   ),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             )

@@ -23,7 +23,7 @@ class TableCurriculum extends StatelessWidget {
     final date_update = string_to_date(last_update)!;
 
     return Padding(
-      padding: EdgeInsetsGeometry.all(30),
+      padding: const EdgeInsetsGeometry.all(30),
       child: Column(
         children: [
           Container(
@@ -31,7 +31,7 @@ class TableCurriculum extends StatelessWidget {
             height: 30,
             decoration: BoxDecoration(
               color: ColorsApp.black.color,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10)
               ),
@@ -105,7 +105,7 @@ class TableCurriculum extends StatelessWidget {
               )
             ]
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           ListProductions(controllers: controller.productions)

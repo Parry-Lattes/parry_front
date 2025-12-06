@@ -34,7 +34,7 @@ class ExporterProductionsOfPeople extends Exporter {
       ]);
     }
 
-    final text_cvs = ListToCsvConverter().convert(tuples);
+    final text_cvs = const ListToCsvConverter().convert(tuples);
     await File(path).writeAsString(text_cvs);
   }
 }

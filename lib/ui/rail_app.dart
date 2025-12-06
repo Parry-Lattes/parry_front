@@ -69,17 +69,17 @@ class _RailApp extends State<RailApp> {
                 _page_controller.jumpToPage(index);
               },
               destinations: [
-                NavigationRailDestination(
+                const NavigationRailDestination(
                   icon: Icon(Icons.dashboard_outlined),
                   selectedIcon: Icon(Icons.dashboard),
                   label: Text('Dashboard')
                 ),
-                NavigationRailDestination(
+                const NavigationRailDestination(
                   icon: Icon(Icons.cloud_upload_outlined),
                   selectedIcon: Icon(Icons.cloud_upload),
                   label: Text('Coleta')
                 ),
-                NavigationRailDestination(
+                const NavigationRailDestination(
                   icon: Icon(Icons.analytics_outlined),
                   selectedIcon: Icon(Icons.analytics),
                   label: Text('Relatório')

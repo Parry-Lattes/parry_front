@@ -53,7 +53,7 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsGeometry.all(15),
+                  padding: const EdgeInsetsGeometry.all(15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 10,
@@ -83,7 +83,7 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsGeometry.all(15),
+                  padding: const EdgeInsetsGeometry.all(15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 10,

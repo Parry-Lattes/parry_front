@@ -2,12 +2,17 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:parry_front/core/api_interface/api_interface.dart';
+import 'package:parry_front/core/exceptions/database_is_empty.dart';
 import 'package:parry_front/core/exporter/exporter.dart';
 
 class ExporterPeoples extends Exporter {
   @override
   Future export(String path) async{
     final peoples = await ApiInterface.request_all_people();
+
+    if(peoples.isEmpty) {
+      throw DatabaseIsEmpty();
+    }
 
     final List<List<String>> tuples = [];
     tuples.add(['Pessoas registradas no sistema']);

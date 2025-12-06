@@ -19,7 +19,7 @@ class TablePeople extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: EdgeInsetsGeometry.all(30),
+      padding: const EdgeInsetsGeometry.all(30),
       child: Column(
         children: [
           Container(
@@ -27,7 +27,7 @@ class TablePeople extends StatelessWidget {
             height: 30,
             decoration: BoxDecoration(
               color: ColorsApp.black.color,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10)
               ),
@@ -67,7 +67,7 @@ class TablePeople extends StatelessWidget {
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
-                      padding: EdgeInsetsGeometry.all(5),
+                      padding: const EdgeInsetsGeometry.all(5),
                       child: TextField(
                         controller: controller.name,
                         style: _edit_text_style,
@@ -85,7 +85,7 @@ class TablePeople extends StatelessWidget {
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
-                      padding: EdgeInsetsGeometry.all(5),
+                      padding: const EdgeInsetsGeometry.all(5),
                       child: TextField(
                         controller: controller.nationality,
                         style: _edit_text_style,
@@ -104,7 +104,7 @@ class TablePeople extends StatelessWidget {
                     height: 80,
                     width: double.infinity,
                     child: Padding(
-                      padding: EdgeInsetsGeometry.all(5),
+                      padding: const EdgeInsetsGeometry.all(5),
                       child: Scrollbar(
                         controller: _scroll_controller,
                         thumbVisibility: true,

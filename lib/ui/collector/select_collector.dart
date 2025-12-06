@@ -7,6 +7,7 @@ import 'package:parry_front/ui/collector/check_html_pages.dart';
 import 'package:parry_front/ui/collector/check_pdf_files.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/my_widgets/button_confirm.dart';
+import 'package:parry_front/ui/my_widgets/error_dialog.dart';
 
 class SelectCollector extends StatelessWidget {
   final Function(List<Extractor>) send_structs;
@@ -41,7 +42,7 @@ class SelectCollector extends StatelessWidget {
               context: context,
               builder: (BuildContext c) {
                 return Dialog(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                     maxHeight: 400,
                     maxWidth: 500
                   ),
@@ -79,25 +80,7 @@ class SelectCollector extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext buider) {
-            return AlertDialog(
-              backgroundColor: ColorsApp.grey2.color,
-              constraints: BoxConstraints(
-                maxHeight: 250
-              ),
-              title: Text('Erro ao executar o navegador', style: TextStyle(color: ColorsApp.red.color,fontWeight: FontWeight.bold),),
-              content: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                    width: 300,
-                    child: Text(e.toString())
-                  ),
-                  ButtonConfirm(
-                    action: () async {}
-                  )
-                ],
-              ),
-            );
+            return ErrorDialog(title: 'Erro ao executar o navegador', message: e.toString());
           }
         );
       }
@@ -112,13 +95,13 @@ class SelectCollector extends StatelessWidget {
         context: context,
         builder: (BuildContext builder) {
           return AlertDialog(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxHeight: 250
             ),
-            title: Text('Abra os currículos'),
+            title: const Text('Abra os currículos'),
             content: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 100,
                   width: 300,
                   child: Text('Abrimos um navegador para você, abra os currículos que você deseja coletar neles, e depois clique em confirmar')
@@ -140,7 +123,7 @@ class SelectCollector extends StatelessWidget {
             context: context,
             builder: (BuildContext c) {
               return Dialog(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   maxHeight: 400,
                   maxWidth: 500
                 ),
@@ -176,8 +159,8 @@ class SelectCollector extends StatelessWidget {
       width: 700,
       height: 400,
       child: Card(
-        color: Color.fromRGBO(0, 0, 0, 0),
-        shadowColor: Color.fromRGBO(0, 0, 0, 0),
+        color: const Color.fromRGBO(0, 0, 0, 0),
+        shadowColor: const Color.fromRGBO(0, 0, 0, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 50,
@@ -194,17 +177,17 @@ class SelectCollector extends StatelessWidget {
                   onPressed: () {
                     _select_pdf_files(context);
                   },
-                  child: Text('PDF')
+                  child: const Text('PDF')
                 ),
                 ElevatedButton(
                   onPressed: (){
                     _select_pages_html(context);
                   },
-                  child: Text('Web')
+                  child: const Text('Web')
                 ),
                 ElevatedButton(
                   onPressed: (){},
-                  child: Text('XML')
+                  child: const Text('XML')
                 )
               ],
             )

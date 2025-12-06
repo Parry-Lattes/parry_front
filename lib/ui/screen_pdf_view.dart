@@ -9,27 +9,25 @@ class ScreenPdfView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Confirme o arquivo'),
+        title: const Text('Confirme o arquivo'),
         actions: [
           IconButton(
             onPressed: () {
               Navigator.pop(context,false);
             },
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
           ),
           IconButton(
             onPressed: () {
               Navigator.pop(context,true);
             },
-            icon: Icon(Icons.check)
+            icon: const Icon(Icons.check)
           ),
         ],
       ),
       body: PdfViewer.asset(
               pdf_path,
-              params: PdfViewerParams(
-              
-              ),
+              params: const PdfViewerParams(),
             ),
     );
   }

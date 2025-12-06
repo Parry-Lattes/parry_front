@@ -23,7 +23,7 @@ class ReviewData extends StatelessWidget {
     //por fim, adiciona o botão de upload
     spreads.add(
       Padding(
-        padding: EdgeInsetsGeometry.only(left: 20,right: 20,bottom: 10),
+        padding: const EdgeInsetsGeometry.only(left: 20,right: 20,bottom: 10),
         child: ElevatedButton.icon(
           onPressed: () {
             for(final c in controllers_spreads) {
@@ -47,8 +47,8 @@ class ReviewData extends StatelessWidget {
                 });
             }
           },
-          label: Text('Upload'),
-          icon: Icon(Icons.cloud_upload),
+          label: const Text('Upload'),
+          icon: const Icon(Icons.cloud_upload),
         ),
       )
     );
@@ -61,7 +61,7 @@ class ReviewData extends StatelessWidget {
       thumbVisibility: true, // Força a visibilidade
       trackVisibility: true, // Mostra a trilha também,
       thickness: 8.0, // Espessura da barra
-      radius: Radius.circular(10),
+      radius: const Radius.circular(10),
 
       child: ListView(
 

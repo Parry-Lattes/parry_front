@@ -65,11 +65,11 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
     }
 
     return Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           spacing: 15,
           children: [
-            Center(
+            const Center(
               child: Text('Revise os arquivos para extração dos dados'),
             ),
             Expanded(
@@ -91,7 +91,7 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(ColorsApp.grey1.color)
                   ),
-                  child: Text('Cancelar')
+                  child: const Text('Cancelar')
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -108,7 +108,7 @@ class _CheckPdfFiles extends State<CheckPdfFiles> {
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(ColorsApp.black.color)
                   ),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             )

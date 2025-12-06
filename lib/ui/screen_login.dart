@@ -24,10 +24,10 @@ class Login extends StatelessWidget{
             height: 500,
             width: 400,
             child: Card(
-              color: Color.fromRGBO(0, 0, 0, 0),
-              shadowColor: Color.fromRGBO(0, 0, 0, 0),
+              color: const Color.fromRGBO(0, 0, 0, 0),
+              shadowColor: const Color.fromRGBO(0, 0, 0, 0),
               child: Container(
-                margin: EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
                 child: Column(
                   spacing: 30,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +64,7 @@ class Login extends StatelessWidget{
                     ),
                     TextButton(
                       onPressed: (){Navigator.pushNamed(contexto, '/app');}, 
-                      child: Text('Entrar'),
+                      child: const Text('Entrar'),
                     )
                   ],
                 ),

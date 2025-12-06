@@ -37,7 +37,7 @@ class _ButtonConfirm extends State<ButtonConfirm> {
             value: null
           ),
         ):
-        Text('Confirmar')
+        const Text('Confirmar')
     );
   }
 }

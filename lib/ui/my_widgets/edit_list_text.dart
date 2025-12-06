@@ -30,14 +30,14 @@ class _EditListText extends State<EditListText> {
 
     chips.add(
       ElevatedButton(
-        child:  Text('Adicionar'),
+        child:  const Text('Adicionar'),
         onPressed: () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               final new_text = TextEditingController();
               return Dialog(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   maxHeight: 150,
                   maxWidth: 300
                 ),
@@ -49,7 +49,7 @@ class _EditListText extends State<EditListText> {
                     children: [
                       TextField(
                         controller: new_text,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Digite aqui...',
                         ),
                       ),
@@ -59,7 +59,7 @@ class _EditListText extends State<EditListText> {
                         children: [
                           TextButton(
                             onPressed: (){Navigator.pop(context);},
-                            child: Text('Cancel')
+                            child: const Text('Cancel')
                           ),
                           FilledButton(
                             onPressed: (){
@@ -70,7 +70,7 @@ class _EditListText extends State<EditListText> {
                                 Navigator.pop(context);
                               });
                             },
-                            child: Text('OK')
+                            child: const Text('OK')
                           )
                         ],
                       )

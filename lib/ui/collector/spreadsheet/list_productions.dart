@@ -72,8 +72,8 @@ class _ListProductions extends State<ListProductions> {
     children.add(
       ElevatedButton.icon(
         onPressed: (){_add_table();},
-        icon: Icon(Icons.add_circle_outline),
-        label: Text('Adicionar')
+        icon: const Icon(Icons.add_circle_outline),
+        label: const Text('Adicionar')
       )
     );
 

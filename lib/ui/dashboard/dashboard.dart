@@ -73,9 +73,9 @@ class Dashboard extends StatelessWidget {
                   _controller_page.jumpToPage(0);
                   return;
                 }
-                _controller_page.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                _controller_page.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
               },
-              icon: Icon(Icons.arrow_forward_ios_sharp)
+              icon: const Icon(Icons.arrow_forward_ios_sharp)
             ),
           ),
         )
