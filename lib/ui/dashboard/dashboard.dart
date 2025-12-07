@@ -28,15 +28,15 @@ class Dashboard extends StatelessWidget {
                   _controller_page.jumpToPage(1);
                   return;
                 }
-                _controller_page.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                _controller_page.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
               },
-              icon: Icon(Icons.arrow_back_ios_sharp)
+              icon: const Icon(Icons.arrow_back_ios_sharp)
             ),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsetsGeometry.all(30),
+            padding: const EdgeInsetsGeometry.all(30),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white, // Cor do container
@@ -57,7 +57,7 @@ class Dashboard extends StatelessWidget {
                   width: double.infinity,
                   child: PageView(
                     controller: _controller_page,
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     children: [
                       ViewNumbersTotais(controller: controller),
                       ViewGraphics(controller: controller)

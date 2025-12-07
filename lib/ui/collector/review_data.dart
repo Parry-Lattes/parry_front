@@ -33,6 +33,7 @@ class ReviewData extends StatelessWidget {
     controller_upload_button.action = () {
       showDialog<dynamic>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext c) {
           return WaitDialog(action: () async {
             await Future.delayed(const Duration(seconds: 1));
