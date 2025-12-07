@@ -3,8 +3,8 @@ import 'package:parry_front/core/api_interface/api_interface.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/my_widgets/error_dialog.dart';
 
-class Login extends StatelessWidget{
-  Login({super.key});
+class ScreenLogin extends StatelessWidget{
+  ScreenLogin({super.key});
 
   final _edit_email = TextEditingController(text: '');
   final _edit_password = TextEditingController(text: '');

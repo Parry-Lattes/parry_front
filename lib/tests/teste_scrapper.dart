@@ -18,8 +18,8 @@ void test_scrapping() async {
   final scrapper = Scrapper(struct);
   try {
     final (curriculo,people) = scrapper.scrapping();
-    final json_curriculo = JsonEncoder.withIndent(' ').convert(curriculo.attributes);
-    final json_pessoa = JsonEncoder.withIndent(' ').convert(people.attributes);
+    final json_curriculo = const JsonEncoder.withIndent(' ').convert(curriculo.attributes);
+    final json_pessoa = const JsonEncoder.withIndent(' ').convert(people.attributes);
     File('./tests/json_lattes.text').writeAsStringSync('$json_curriculo, $json_pessoa');
   } catch (e) {
     print(e);

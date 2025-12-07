@@ -66,13 +66,19 @@ class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin
         );
         break;
       case Status.failed:
-        _child = Text(
-          _msg_error!,
-          style: TextStyle(
-            color: ColorsApp.red.color,
-            fontSize: 30,
-            fontWeight: FontWeight.bold
-          )
+        _child = SizedBox(
+          width: double.infinity,
+          height: 500,
+          child: Center(
+            child: Text(
+              _msg_error!,
+              style: TextStyle(
+                color: ColorsApp.red.color,
+                fontSize: 30,
+                fontWeight: FontWeight.bold
+              )
+            ),
+          ),
         );
     }
 
