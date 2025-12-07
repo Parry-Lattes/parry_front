@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -11,8 +12,10 @@ import 'package:parry_front/core/lattes_entitys/production.dart';
 abstract class ApiInterface {
   static final address = dotenv.env['ADDRESS_BACK']; //o endereço base do backend
   static final client = http.Client();
+  static String _csrf_cookie = 'bunda';
+  static String _all_cookies = 'vagina';
 
-  static Uri _get_url(String path) {return Uri.http('$address',path);}
+  static Uri _get_url(String path) {return Uri.http('$address','v1/$path');}
 
   /*
    Recebe o objeto json decodado, e tenta transformar ele em um objeto People
@@ -115,6 +118,46 @@ abstract class ApiInterface {
     return Curriculum(id_lattes, last_update, productions);
   }
 
+  static Map<String,String> get header_request => {
+    'Content-Type': 'application/json; charset=UTF-8',
+    'cookie': _all_cookies,
+    'X-CSRF-Token': _csrf_cookie
+  };
+
+  /*
+   Tenta logar no sistema. Se der algum problema, retorna o texto explicativo do problema.
+   Caso contrário, retorna um texto vazio.
+   */
+  static Future<String> login(String email,senha) async {
+    final response = await client.post(
+      _get_url('login'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: '{"email": "$email","senha": "$senha"}'
+    );
+
+    if(response.statusCode == 400) {
+      return 'Email ou senha inválidos';
+    }
+
+    final text_cookies = response.headers['set-cookie'];
+    if(text_cookies == null) {
+      return 'Resposta do servidor inválida';
+    }
+
+    final list_text_cookies = text_cookies.split(RegExp(r',(?=\s*[^;]+=)'));
+
+    for(final text_cookie in list_text_cookies) {
+      final cookie = Cookie.fromSetCookieValue(text_cookie);
+      if(cookie.name == 'csrf_cookie') {
+        _csrf_cookie = cookie.value;
+        _all_cookies = text_cookies;
+        return '';
+      }
+    }
+
+    return 'Resposta do servidor inválida';
+  }
+
   /*
    Recebe como argumento a rota do backend que receberá a requisição
    Observe que isto é apenas para rotas que não precisam de bodys,
@@ -122,29 +165,32 @@ abstract class ApiInterface {
    Retorna uma String com o corpo do resultado
    */
   static Future<(String,int)> request_in(String path) async {
-    final response = await client.get(_get_url(path));
+    final response = await client.get(
+      _get_url(path),
+      headers: header_request
+    );
     
     return (response.body,response.statusCode);
   }
 
   
-  //retorna um objeto de upload, específico para a rota de pessoa
-  static UploadData get upload_people => UploadData(uri: _get_url('pessoa'));
+  //retorna um objeto de upload, específico para a rota de pessoas
+  static UploadData get upload_people => UploadData(uri: _get_url('pessoas'));
 
   //retorna um objeto de upload, mas dessa vez para os currículos
-  static UploadData upload_curriculum(int id_lattes) { return UploadData(uri: _get_url('pessoa/$id_lattes/curriculo')); }
+  static UploadData upload_curriculum(int id_lattes) { return UploadData(uri: _get_url('pessoas/$id_lattes/curriculo')); }
 
   static Future delete_data(int id_lattes) async {
-    await client.delete(_get_url('pessoa/$id_lattes'));
+    await client.delete(headers: header_request,_get_url('pessoas/$id_lattes'));
   }
 
   /*
-   Solicita ao backend todas as pessoas registradas
+   Solicita ao backend todas as pessoass registradas
    Caso haja alguma falha, retorna uma lista vazia.
    Mas também pode ser que retorne uma lista vazia caso não haja nada no banco de dados :)
    */
   static Future<List<People>> request_all_people() async {
-    final (result,code) = await request_in('pessoa');
+    final (result,code) = await request_in('pessoas');
     List<People> peoples = [];
 
     for(final i in jsonDecode(result)) {
@@ -159,12 +205,12 @@ abstract class ApiInterface {
   }
 
   /*
-   Recebe como argumento um id_lattes, e solicita para o backend os dados da pessoa
+   Recebe como argumento um id_lattes, e solicita para o backend os dados da pessoas
    correspondente ao id_lattes.
    Caso nenhum dado seja encontrado ou haja um problema na conversão para um objeto People, retorna null
    */
   static Future<People?> request_people(int id_lattes) async {
-    final (result,code) = await request_in('pessoa/$id_lattes');
+    final (result,code) = await request_in('pessoas/$id_lattes');
     if(code != 200) {
       return null;
     }
@@ -177,7 +223,7 @@ abstract class ApiInterface {
    Caso nada seja encontrado, ou haja problemas na conversão, retorna null
    */
   static Future<Curriculum?> request_curriculum(int id_lattes) async {
-    final (result,code) = await request_in('pessoa/$id_lattes/curriculo');
+    final (result,code) = await request_in('pessoas/$id_lattes/curriculo');
 
     if(code != 200) {return null;}
 

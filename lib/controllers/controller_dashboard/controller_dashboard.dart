@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:parry_front/controllers/controller_action_button.dart';
 import 'package:parry_front/controllers/controller_dashboard/productions_by_type.dart';
 import 'package:parry_front/controllers/controller_dashboard/productions_by_year.dart';
 import 'package:parry_front/controllers/controller_dashboard/struct_data.dart';
@@ -12,6 +13,7 @@ import 'package:parry_front/core/lattes_entitys/production.dart';
  */
 class ControllerDashboard {
   StructData data = StructData();
+  ControllerActionButton controller_action_button = ControllerActionButton();
 
   /*
    Retorna os valores das estatísticas gerais do dashboard. O primeiro número é a quantidade de pessoas

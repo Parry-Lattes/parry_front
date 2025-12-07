@@ -1,3 +1,3 @@
-class ControllerUploadButton {
+class ControllerActionButton {
   void Function() action = (){};
 }

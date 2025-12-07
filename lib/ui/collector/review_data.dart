@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/controllers/controller_upload_button.dart';
+import 'package:parry_front/controllers/controller_action_button.dart';
 import 'package:parry_front/core/api_interface/api_interface.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_spreadsheet.dart';
@@ -10,7 +10,7 @@ import 'package:parry_front/ui/my_widgets/wait_dialog.dart';
 
 class ReviewData extends StatelessWidget {
   final List<Extractor> extrators;
-  final ControllerUploadButton controller_upload_button;
+  final ControllerActionButton controller_upload_button;
   final controllers_spreads = List<ControllerSpreadsheet>.empty(growable: true);
   final upload_people = ApiInterface.upload_people;
   final void Function() done_review;

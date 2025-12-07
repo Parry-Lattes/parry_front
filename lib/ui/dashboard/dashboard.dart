@@ -3,6 +3,7 @@ import 'package:parry_front/controllers/controller_dashboard/controller_dashboar
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/dashboard/view_graphics.dart';
 import 'package:parry_front/ui/dashboard/view_numbers_totais.dart';
+import 'package:parry_front/ui/my_widgets/action_button.dart';
 
 class Dashboard extends StatelessWidget {
   Dashboard({super.key});
@@ -10,7 +11,7 @@ class Dashboard extends StatelessWidget {
   final _controller_page = PageController(initialPage: 0, keepPage: true);
 
   List<Widget> get actions {
-    return [];
+    return [ActionButton(controller: controller.controller_action_button, icon: Icons.filter_list_outlined)];
   }
 
   @override

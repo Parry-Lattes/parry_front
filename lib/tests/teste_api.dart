@@ -3,7 +3,23 @@ import 'package:parry_front/core/api_interface/api_interface.dart';
 
 void main() {
   print('testando acessar a api');
-  teste_requisicao_curriculum();
+  teste_login();
+}
+
+void teste_login() async {
+  await dotenv.load(fileName: 'assets/env.env');
+  print(await ApiInterface.login('root', '1234'));
+  print(await ApiInterface.request_in('dashboard'));
+  // final response = await ApiInterface.login('root', '1234');
+  // final text_splited = response.split(RegExp(r',(?=\s*[^;]+=)'));
+  // for(final t in text_splited) {
+  //   print(t);
+  //   final coo = Cookie.fromSetCookieValue(t.trim());
+
+  //   print(coo.name);
+  //   print(coo.value);
+  // }
+
 }
 
 void teste_conexao() async {

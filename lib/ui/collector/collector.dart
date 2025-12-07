@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:parry_front/controllers/controller_upload_button.dart';
+import 'package:parry_front/controllers/controller_action_button.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/ui/collector/review_data.dart';
 import 'package:parry_front/ui/collector/select_collector.dart';
-import 'package:parry_front/ui/collector/upload_button.dart';
+import 'package:parry_front/ui/my_widgets/action_button.dart';
 
 class Collector extends StatefulWidget {
   Collector({super.key});
 
-  final controller_upload_button = ControllerUploadButton();
+  final controller_upload_button = ControllerActionButton();
 
   List<Widget> get actions {
-    return [UploadButton(controller: controller_upload_button)];
+    return [ActionButton(controller: controller_upload_button,icon: Icons.cloud_upload,)];
   }
 
   @override

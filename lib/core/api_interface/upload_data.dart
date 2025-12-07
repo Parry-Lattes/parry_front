@@ -19,7 +19,7 @@ class UploadData {
    pretende-se retornar o erro gerado em questão futuramente
    */
   Future<bool> send_data(String data) async {
-    final response = await ApiInterface.client.post(uri, headers: {'Content-Type': 'application/json; charset=UTF-8'}, body: data, encoding: utf8);
+    final response = await ApiInterface.client.post(uri, headers: ApiInterface.header_request, body: data, encoding: utf8);
 
     if(response.body == 'null') {
       return true;
