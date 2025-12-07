@@ -9,8 +9,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ViewGraphics extends StatefulWidget {
   final ControllerDashboard controller;
+  final List<Future Function()> reloads;
 
-  const ViewGraphics({super.key, required this.controller});
+  const ViewGraphics({super.key, required this.controller, required this.reloads});
 
   @override
   State<StatefulWidget> createState() => _ViewGraphics();
@@ -265,6 +266,13 @@ class _ViewGraphics extends State<ViewGraphics> with AutomaticKeepAliveClientMix
   @override
   void initState() {
     super.initState();
+    print('a');
+
+    widget.reloads.add(() async  {
+      setState(() {
+        _loading = true;
+      });
+    });
 
     widget.controller.controller_action_button.action = _select_filter;
   }

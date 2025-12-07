@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parry_front/controllers/controller_action_button.dart';
 import 'package:parry_front/controllers/controller_dashboard/controller_dashboard.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/dashboard/view_graphics.dart';
@@ -9,9 +10,21 @@ class Dashboard extends StatelessWidget {
   Dashboard({super.key});
   final ControllerDashboard controller = ControllerDashboard();
   final _controller_page = PageController(initialPage: 0, keepPage: true);
+  final List<Future Function()> _reloads = List.empty(growable: true);
 
   List<Widget> get actions {
-    return [ActionButton(controller: controller.controller_action_button, icon: Icons.filter_list_outlined)];
+    final controller_button_reload = ControllerActionButton();
+    controller_button_reload.action = _refresh;
+    return [
+      ActionButton(controller: controller.controller_action_button, icon: Icons.filter_list_outlined),
+      ActionButton(controller: controller_button_reload, icon: Icons.refresh)
+    ];
+  }
+
+  void _refresh() {
+    for(final r in _reloads) {
+      r();
+    }
   }
 
   @override
@@ -59,8 +72,8 @@ class Dashboard extends StatelessWidget {
                     controller: _controller_page,
                     physics: const ScrollPhysics(),
                     children: [
-                      ViewNumbersTotais(controller: controller),
-                      ViewGraphics(controller: controller)
+                      ViewNumbersTotais(controller: controller,reloads: _reloads,),
+                      ViewGraphics(controller: controller,reloads: _reloads,)
                     ],
                   ),
                 ),

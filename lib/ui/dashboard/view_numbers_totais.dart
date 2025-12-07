@@ -4,35 +4,47 @@ import 'package:parry_front/ui/colors_app.dart';
 
 class ViewNumbersTotais extends StatefulWidget {
   final ControllerDashboard controller;
-  const ViewNumbersTotais({super.key, required this.controller});
+  final List<Future Function()> reloads;
+  const ViewNumbersTotais({super.key, required this.controller, required this.reloads});
 
   @override
   State<StatefulWidget> createState() => _ViewNumbersTotais();
 }
 
 class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliveClientMixin {
-  bool loading = true;
+  bool _loading = true;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+
+    widget.reloads.add(() async {
+      setState(() {
+        _loading = true;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    if(loading) {
+    if(_loading) {
       widget.controller.loading_data.then(
         (result){
           if(result == true) {
             setState(() {
-              loading = false;
+              _loading = false;
             });
           }
         }
       );
     }
 
-    return loading
+    return _loading
       ?Center(
         child: SizedBox(
           width: 50,
