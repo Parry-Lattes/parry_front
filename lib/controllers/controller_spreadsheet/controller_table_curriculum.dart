@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parry_front/core/exceptions/data_not_load.dart';
 import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_table_production.dart';
 import 'package:parry_front/core/lattes_entitys/production.dart';
@@ -28,14 +29,18 @@ class ControllerTableCurriculum {
    um objeto de currículo que representa o estado atual da tabela.
    */
   Curriculum get curriculum {
-    final list_productions = List<Production>.empty(growable: true);
-    final int_id_lattes = int.tryParse(id_lattes.text)!;
+    try {
+      final list_productions = List<Production>.empty(growable: true);
+      final int_id_lattes = int.parse(id_lattes.text);
 
-    for(final p in productions) {
-      list_productions.add(p.production);
+      for(final p in productions) {
+        list_productions.add(p.production);
+      }
+
+      return Curriculum(int_id_lattes, last_update, list_productions);
+    } on Exception {
+      throw DataNotLoad();
     }
-
-    return Curriculum(int_id_lattes, last_update, list_productions);
   }
 
   //Atualiza os dados da tabela, ou seja, do controller, com base em um outro currículo informado

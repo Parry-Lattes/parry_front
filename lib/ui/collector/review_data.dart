@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:parry_front/controllers/controller_upload_button.dart';
 import 'package:parry_front/core/api_interface/api_interface.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/spreadsheet.dart';
 import 'package:parry_front/ui/colors_app.dart';
+import 'package:parry_front/ui/my_widgets/error_dialog.dart';
+import 'package:parry_front/ui/my_widgets/wait_dialog.dart';
 
 class ReviewData extends StatelessWidget {
   final List<Extractor> extrators;
-  ReviewData({super.key,required this.extrators});
+  final ControllerUploadButton controller_upload_button;
   final controllers_spreads = List<ControllerSpreadsheet>.empty(growable: true);
   final upload_people = ApiInterface.upload_people;
+  final void Function() done_review;
+
+  ReviewData({super.key,required this.extrators, required this.controller_upload_button,required this.done_review});
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> spreads = List.empty(growable: true);
+    final List<Spreadsheet> spreads = List.empty(growable: true);
     for(final e in extrators) {
       final controller = ControllerSpreadsheet(extractor: e);
       spreads.add(Spreadsheet(controller: controller));
       controllers_spreads.add(controller);
     }
 
-    //por fim, adiciona o botão de upload
-    spreads.add(
-      Padding(
-        padding: const EdgeInsetsGeometry.only(left: 20,right: 20,bottom: 10),
-        child: ElevatedButton.icon(
-          onPressed: () {
+    controller_upload_button.action = () {
+      showDialog<dynamic>(
+        context: context,
+        builder: (BuildContext c) {
+          return WaitDialog(action: () async {
+            await Future.delayed(const Duration(seconds: 1));
             for(final c in controllers_spreads) {
               final (curriculum,people) = c.data;
 
@@ -46,12 +52,28 @@ class ReviewData extends StatelessWidget {
                   );
                 });
             }
-          },
-          label: const Text('Upload'),
-          icon: const Icon(Icons.cloud_upload),
-        ),
-      )
-    );
+          });
+        }
+      ).then((result) {
+        if(result == true){
+          done_review();
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Dados enviados com sucesso!'),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        } else if(result != null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext c) {
+              return ErrorDialog(title: 'Erro ao enviar os dados', message: result.toString());
+            }
+          );
+        }
+      });
+    };
 
     final controller_scroll = ScrollController();
 

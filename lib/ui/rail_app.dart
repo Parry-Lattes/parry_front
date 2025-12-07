@@ -24,19 +24,21 @@ class _RailApp extends State<RailApp> {
   void initState() {
     super.initState();
 
+    final dashboard = Dashboard();
+    final collector = Collector();
+    const rapporteur = RapporteurGenerator();
+
     _page_view = PageView(
       controller: _page_controller,
-      physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[Dashboard(),Collector(),RapporteurGenerator()],
+      physics: const NeverScrollableScrollPhysics(),
+      children: <Widget>[dashboard,collector,rapporteur],
     );
 
     _actions_buttons.addAll(
       [
-        [],
-        [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search))
-        ],
-        []
+        dashboard.actions,
+        collector.actions,
+        rapporteur.actions
       ]
     );
   }
@@ -46,7 +48,7 @@ class _RailApp extends State<RailApp> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
+        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.menu)),
         leadingWidth: _width_left,
         actions: _actions_buttons[_index],
         //foregroundColor: ColorsApp.grey1.color,

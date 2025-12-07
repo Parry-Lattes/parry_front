@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:parry_front/controllers/controller_dashboard/controller_rapporteur_from_id.dart';
+import 'package:parry_front/controllers/controller_rapporteur_from_id.dart';
 import 'package:parry_front/ui/colors_app.dart';
 
 class RapporteurFromId extends StatefulWidget {

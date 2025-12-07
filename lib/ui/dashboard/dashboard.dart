@@ -9,6 +9,10 @@ class Dashboard extends StatelessWidget {
   final ControllerDashboard controller = ControllerDashboard();
   final _controller_page = PageController(initialPage: 0, keepPage: true);
 
+  List<Widget> get actions {
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(

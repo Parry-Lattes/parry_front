@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
+import 'package:parry_front/core/api_interface/api_interface.dart';
 
 /*
  Uma classe para facilitar o processo de envio de dados
@@ -20,7 +19,7 @@ class UploadData {
    pretende-se retornar o erro gerado em questão futuramente
    */
   Future<bool> send_data(String data) async {
-    final response = await http.post(uri, headers: {'Content-Type': 'application/json; charset=UTF-8'}, body: data, encoding: utf8);
+    final response = await ApiInterface.client.post(uri, headers: {'Content-Type': 'application/json; charset=UTF-8'}, body: data, encoding: utf8);
 
     if(response.body == 'null') {
       return true;

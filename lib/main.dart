@@ -4,7 +4,7 @@ import 'package:parry_front/ui/app.dart';
 
 void main(List<String> args) {
   dotenv.load(fileName: 'assets/env.env');
-  runApp(App());
+  runApp(const App());
 }
 
 // import 'package:flutter/material.dart';

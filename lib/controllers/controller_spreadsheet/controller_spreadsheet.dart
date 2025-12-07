@@ -20,7 +20,8 @@ class ControllerSpreadsheet {
 
   /*
    Retorna os dados depois de editados, ou seja, retorna os dados que estão no estado atual da planilha.
-   Será utilizado na hora de fazer upload dos dados
+   Será utilizado na hora de fazer upload dos dados.
+   Caso os dados ainda não tenham sido corretamente carregados, lança um erro
    */
   (Curriculum,People) get data {
     final curriculum = controller_curriculum.curriculum;
@@ -34,7 +35,7 @@ class ControllerSpreadsheet {
 
   //carrega os dados do extrator e retorna eles. Será utilizado pelo widget
   Future<(Curriculum,People)> load_data() async {
-    await Future.delayed(Duration(seconds: 2)); //esse delay é necessário para que o widget seja corretamente construído
+    await Future.delayed(const Duration(seconds: 2)); //esse delay é necessário para que o widget seja corretamente construído
     final struct = extractor.extract_data();
 
     final scrapper = Scrapper(struct);

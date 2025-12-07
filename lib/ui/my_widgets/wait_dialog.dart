@@ -7,9 +7,14 @@ class WaitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    action().then((_){
-      Navigator.pop(context);
-    });
+    action().then(
+      (_){
+        Navigator.pop(context,true);
+      },
+      onError: (e) {
+        Navigator.pop(context,e);
+      }
+    );
     return const AlertDialog(
       content: SizedBox(
         width: 100,

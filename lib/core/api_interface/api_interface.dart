@@ -10,6 +10,7 @@ import 'package:parry_front/core/lattes_entitys/production.dart';
 
 abstract class ApiInterface {
   static final address = dotenv.env['ADDRESS_BACK']; //o endereço base do backend
+  static final client = http.Client();
 
   static Uri _get_url(String path) {return Uri.http('$address',path);}
 
@@ -121,7 +122,7 @@ abstract class ApiInterface {
    Retorna uma String com o corpo do resultado
    */
   static Future<(String,int)> request_in(String path) async {
-    final response = await http.get(_get_url(path));
+    final response = await client.get(_get_url(path));
     
     return (response.body,response.statusCode);
   }
@@ -134,7 +135,7 @@ abstract class ApiInterface {
   static UploadData upload_curriculum(int id_lattes) { return UploadData(uri: _get_url('pessoa/$id_lattes/curriculo')); }
 
   static Future delete_data(int id_lattes) async {
-    await http.delete(_get_url('pessoa/$id_lattes'));
+    await client.delete(_get_url('pessoa/$id_lattes'));
   }
 
   /*

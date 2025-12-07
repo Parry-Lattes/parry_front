@@ -1,6 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:parry_front/controllers/controller_dashboard/controller_rapporteur_from_id.dart';
+import 'package:parry_front/controllers/controller_rapporteur_from_id.dart';
 import 'package:parry_front/core/exporter/exporter_all_productions.dart';
 import 'package:parry_front/core/exporter/exporter_peoples.dart';
 import 'package:parry_front/core/exporter/exporter_productions_of_people.dart';
@@ -11,6 +11,10 @@ import 'package:parry_front/ui/rapporteur_generator/rapporteur_from_id.dart';
 
 class RapporteurGenerator extends StatelessWidget{
   const RapporteurGenerator({super.key});
+
+  List<Widget> get actions {
+    return [];
+  }
 
   @override
   Widget build(BuildContext context) {
