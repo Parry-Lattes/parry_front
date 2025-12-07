@@ -1,11 +1,13 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:parry_front/controllers/controller_rapporteur_from_id.dart';
+import 'package:parry_front/core/exceptions/unauthorized_request.dart';
 import 'package:parry_front/core/exporter/exporter_all_productions.dart';
 import 'package:parry_front/core/exporter/exporter_peoples.dart';
 import 'package:parry_front/core/exporter/exporter_productions_of_people.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/my_widgets/error_dialog.dart';
+import 'package:parry_front/ui/my_widgets/reautentication_dialog.dart';
 import 'package:parry_front/ui/my_widgets/wait_dialog.dart';
 import 'package:parry_front/ui/rapporteur_generator/rapporteur_from_id.dart';
 
@@ -61,6 +63,12 @@ class RapporteurGenerator extends StatelessWidget{
                                     );
                                   },
                                   onError: (e) {
+                                    if(e is UnauthorizedRequest) {
+                                      reautentication(c, e);
+
+                                      return;
+                                    }
+
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext c) {
@@ -128,6 +136,11 @@ class RapporteurGenerator extends StatelessWidget{
                                     );
                                   },
                                   onError: (e) {
+                                    if(e is UnauthorizedRequest) {
+                                      reautentication(c, e);
+                                      return;
+                                    }
+
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext c) {
@@ -219,6 +232,12 @@ class RapporteurGenerator extends StatelessWidget{
                                       ),
                                     );
                                   } else if(result != null) {
+                                    if(result is UnauthorizedRequest) {
+                                      reautentication(context, result);
+
+                                      return;
+                                    }
+                                    
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext c) {

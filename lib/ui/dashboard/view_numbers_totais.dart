@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parry_front/controllers/controller_dashboard/controller_dashboard.dart';
 import 'package:parry_front/ui/colors_app.dart';
+import 'package:parry_front/ui/my_widgets/reautentication_dialog.dart';
 
 class ViewNumbersTotais extends StatefulWidget {
   final ControllerDashboard controller;
@@ -33,13 +34,16 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
     super.build(context);
 
     if(_loading) {
-      widget.controller.loading_data.then(
-        (result){
+       widget.controller.loading_data.then(
+        (result) {
           if(result == true) {
             setState(() {
               _loading = false;
             });
           }
+        },
+        onError: (e) {
+          reautentication(context, e);
         }
       );
     }

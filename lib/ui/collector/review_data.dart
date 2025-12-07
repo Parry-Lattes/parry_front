@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:parry_front/controllers/controller_action_button.dart';
 import 'package:parry_front/core/api_interface/api_interface.dart';
+import 'package:parry_front/core/exceptions/unauthorized_request.dart';
 import 'package:parry_front/core/scrapper/extractor/extractor.dart';
 import 'package:parry_front/controllers/controller_spreadsheet/controller_spreadsheet.dart';
 import 'package:parry_front/ui/collector/spreadsheet/spreadsheet.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/my_widgets/error_dialog.dart';
+import 'package:parry_front/ui/my_widgets/reautentication_dialog.dart';
 import 'package:parry_front/ui/my_widgets/wait_dialog.dart';
 
 class ReviewData extends StatelessWidget {
@@ -37,25 +39,17 @@ class ReviewData extends StatelessWidget {
         builder: (BuildContext c) {
           return WaitDialog(action: () async {
             await Future.delayed(const Duration(seconds: 1));
-            for(final c in controllers_spreads) {
-              final (curriculum,people) = c.data;
+            for(final con in controllers_spreads) {
+              final (curriculum,people) = con.data;
 
               //primeiro, tentamos deletar o que já tem no banco de dados
-              ApiInterface.delete_data(curriculum.id_lattes)
-                .then((_) {
-                  //envio os dados, e verifico se isso foi bem sucedido
-                  upload_people.send_data(people.json).then(
-                    (result) {
-                      if(true) {
-                        //se o envio de dados foi bem sucedido, então eu tento salvar o currículo também
-                        ApiInterface.upload_curriculum(curriculum.id_lattes)
-                          .send_data(curriculum.json);}
-                      // } else {
-                      //   print('deu merda em: ${people.name}');
-                      // }
-                    }
-                  );
-                });
+              await ApiInterface.delete_data(curriculum.id_lattes);
+
+              //depois de tentar deletar, tentamos enviar a pessoa
+              if(await upload_people.send_data(people.json)) {
+                //se tudo der certo, fazemos o upload do curriculo
+                ApiInterface.upload_curriculum(curriculum.id_lattes);
+              }
             }
           });
         }
@@ -71,6 +65,12 @@ class ReviewData extends StatelessWidget {
             ),
           );
         } else if(result != null) {
+          if(result is UnauthorizedRequest) {
+            reautentication(context, result);
+
+            return;
+          }
+
           showDialog(
             context: context,
             builder: (BuildContext c) {

@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:parry_front/core/api_interface/upload_data.dart';
+import 'package:parry_front/core/exceptions/unauthorized_request.dart';
 import 'package:parry_front/core/lattes_entitys/curriculum.dart';
 import 'package:parry_front/core/lattes_entitys/people.dart';
 import 'package:parry_front/core/lattes_entitys/production.dart';
@@ -12,8 +13,9 @@ import 'package:parry_front/core/lattes_entitys/production.dart';
 abstract class ApiInterface {
   static final address = dotenv.env['ADDRESS_BACK']; //o endereço base do backend
   static final client = http.Client();
-  static String _csrf_cookie = 'bunda';
-  static String _all_cookies = 'vagina';
+  static bool _execute_manager = true;
+  static String _csrf_cookie = 'vagina';
+  static List<Cookie> _all_cookies = [];
 
   static Uri _get_url(String path) {return Uri.http('$address','v1/$path');}
 
@@ -98,6 +100,8 @@ abstract class ApiInterface {
   /*
    Recebe como argumento o id_lattes e o json que se supõe ser um currículo lattes.
    Tenta transformar o json em um objeto Curriculum, se falhar, retorna null
+
+   Também verifica se os cookies não expiraram
    */
   static Curriculum? _json_to_curriculum(int id_lattes,Map<String,dynamic> json_curriculum) {
     final String? last_update = json_curriculum['ultima_atualizacao'];
@@ -118,9 +122,32 @@ abstract class ApiInterface {
     return Curriculum(id_lattes, last_update, productions);
   }
 
+  static Future _init_manage_cookies() async {
+    _execute_manager = false;
+    await Future.delayed(const Duration(seconds: 2));
+    _execute_manager = true;
+    _manage_cookies();
+  }
+
+  static Future _manage_cookies() async {
+    while (_execute_manager) {
+      await Future.delayed(const Duration(seconds: 1));
+
+      for(final cookie in _all_cookies) {
+        if(cookie.maxAge != null) {
+          cookie.maxAge = cookie.maxAge!-1;
+
+          if(cookie.maxAge! <= 0) {
+            cookie.value = 'miapica';
+          }
+        }
+      }
+    }
+  } 
+
   static Map<String,String> get header_request => {
     'Content-Type': 'application/json; charset=UTF-8',
-    'cookie': _all_cookies,
+    'cookie': _all_cookies.join(','),
     'X-CSRF-Token': _csrf_cookie
   };
 
@@ -129,6 +156,8 @@ abstract class ApiInterface {
    Caso contrário, retorna um texto vazio.
    */
   static Future<String> login(String email,senha) async {
+    _init_manage_cookies();
+    _all_cookies.clear();
     final response = await client.post(
       _get_url('login'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -150,12 +179,16 @@ abstract class ApiInterface {
       final cookie = Cookie.fromSetCookieValue(text_cookie);
       if(cookie.name == 'csrf_cookie') {
         _csrf_cookie = cookie.value;
-        _all_cookies = text_cookies;
-        return '';
       }
+
+      _all_cookies.add(cookie);
     }
 
-    return 'Resposta do servidor inválida';
+    if(_csrf_cookie == 'vagina') {
+      return 'Resposta do servidor inválida';
+    }
+
+    return '';
   }
 
   /*
@@ -165,10 +198,15 @@ abstract class ApiInterface {
    Retorna uma String com o corpo do resultado
    */
   static Future<(String,int)> request_in(String path) async {
+    print(_all_cookies.join(','));
     final response = await client.get(
       _get_url(path),
       headers: header_request
     );
+
+    if(response.statusCode == 401) {
+      throw UnauthorizedRequest();
+    }
     
     return (response.body,response.statusCode);
   }
@@ -181,7 +219,10 @@ abstract class ApiInterface {
   static UploadData upload_curriculum(int id_lattes) { return UploadData(uri: _get_url('pessoas/$id_lattes/curriculo')); }
 
   static Future delete_data(int id_lattes) async {
-    await client.delete(headers: header_request,_get_url('pessoas/$id_lattes'));
+    final response = await client.delete(headers: header_request,_get_url('pessoas/$id_lattes'));
+    if(response.statusCode == 401) {
+      throw UnauthorizedRequest();
+    }
   }
 
   /*

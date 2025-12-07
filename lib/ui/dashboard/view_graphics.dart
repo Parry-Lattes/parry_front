@@ -5,6 +5,7 @@ import 'package:parry_front/controllers/controller_dashboard/productions_by_year
 import 'package:parry_front/core/lattes_entitys/production.dart';
 import 'package:parry_front/ui/colors_app.dart';
 import 'package:parry_front/ui/dashboard/dialog_filter.dart';
+import 'package:parry_front/ui/my_widgets/reautentication_dialog.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ViewGraphics extends StatefulWidget {
@@ -289,6 +290,9 @@ class _ViewGraphics extends State<ViewGraphics> with AutomaticKeepAliveClientMix
               _loading = false;
             });
           }
+        },
+        onError: (e) {
+          reautentication(context, e);
         }
       );
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:parry_front/core/api_interface/api_interface.dart';
+import 'package:parry_front/core/exceptions/unauthorized_request.dart';
 
 /*
  Uma classe para facilitar o processo de envio de dados
@@ -21,8 +22,10 @@ class UploadData {
   Future<bool> send_data(String data) async {
     final response = await ApiInterface.client.post(uri, headers: ApiInterface.header_request, body: data, encoding: utf8);
 
-    if(response.body == 'null') {
+    if(response.statusCode == 200) {
       return true;
+    } else if(response.statusCode == 401) {
+      throw UnauthorizedRequest();
     }
 
     return false;
