@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/*
+ Executa uma função enquanto abre um diálogo com uma bola girando
+ Quando a função termina de executar, caso tudo tenha ocorrido bem, fecha o diálogo, retornado true para o show dialog
+ Se um erro ocorrer, fecha o diálogo e retorna o erro para o showDialog
+ */
 class WaitDialog extends StatelessWidget {
   final Future Function() action;
 

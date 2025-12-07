@@ -32,7 +32,11 @@ class HTMLExtractor extends Extractor {
   void _iter_nodes(NodeList nodes,StructLattes struct) {
     for(final node in nodes) {
       if(node is Element) {
-        if(node.localName!.toLowerCase() == 'script') {
+        if(
+          node.localName!.toLowerCase() == 'script' ||
+          node.className.contains('informacao-arctigo') //pode parecer contraditório, tirar informações do artigo pra capturar informações do artigo
+          //mas os elementos de informacao-artigo atrapalham a análise do Scrapper, e não vale a pena adaptar todo o scrapper pra pegar esses dados
+        ) {
           continue;
         }
       }

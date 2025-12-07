@@ -15,6 +15,10 @@ class ReviewData extends StatelessWidget {
   final upload_people = ApiInterface.upload_people;
   final void Function() done_review;
 
+  /*
+   Requer a lista de extrators, o controller do botão de upload e a função para fazer
+   o Collector voltar para a página anterior
+   */
   ReviewData({super.key,required this.extrators, required this.controller_upload_button,required this.done_review});
 
   @override
@@ -57,11 +61,12 @@ class ReviewData extends StatelessWidget {
       ).then((result) {
         if(result == true){
           done_review();
-          
+
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Dados enviados com sucesso!'),
-              duration: Duration(seconds: 5),
+            SnackBar(
+              backgroundColor: ColorsApp.brown1.color,
+              content: Text('Dados enviados com sucesso!', style: TextStyle(color: ColorsApp.white.color),),
+              duration: const Duration(seconds: 5),
             ),
           );
         } else if(result != null) {

@@ -53,9 +53,10 @@ class RapporteurGenerator extends StatelessWidget{
                                 await ExporterPeoples().export('$result/Tabela de discentes.csv').then(
                                   (_){
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Arquivo exportado com sucesso'),
-                                        duration: Duration(seconds: 5),
+                                      SnackBar(
+                                        backgroundColor: ColorsApp.brown1.color,
+                                        content: Text('Arquivo exportado com sucesso', style: TextStyle(color: ColorsApp.white.color),),
+                                        duration: const Duration(seconds: 5),
                                       ),
                                     );
                                   },
@@ -119,9 +120,10 @@ class RapporteurGenerator extends StatelessWidget{
                                 await ExporterAllProductions().export('$result/Tabela de todas as produções.csv').then(
                                   (_){
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Arquivo exportado com sucesso'),
-                                        duration: Duration(seconds: 5),
+                                      SnackBar(
+                                        backgroundColor: ColorsApp.brown1.color,
+                                        content: Text('Arquivo exportado com sucesso', style: TextStyle(color: ColorsApp.white.color),),
+                                        duration: const Duration(seconds: 5),
                                       ),
                                     );
                                   },
@@ -201,31 +203,32 @@ class RapporteurGenerator extends StatelessWidget{
                                   return WaitDialog(
                                     action: () async {
                                       for(final (_,id) in ids_lattes) {
-                                        await ExporterProductionsOfPeople(id_lattes: id).export('$result/Tabela de produções de $id.csv')
-                                          .then(
-                                            (_) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text('Arquivos exportados com sucesso'),
-                                                  duration: Duration(seconds: 5),
-                                                ),
-                                              );
-                                            },
-                                            onError: (e) {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext c) {
-                                                  return ErrorDialog(
-                                                    title: 'Erro ao exportar arquivo',
-                                                    message: e.toString()
-                                                  );
-                                                }
-                                              );
-                                            }
-                                          );
+                                        await ExporterProductionsOfPeople(id_lattes: id).export('$result/Tabela de produções de $id.csv');
                                       }
                                     }
                                   );
+                                }
+                              ).then(
+                                (result) {
+                                  if(result == true) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: ColorsApp.brown1.color,
+                                        content: Text('Arquivos exportados com sucesso', style: TextStyle(color: ColorsApp.white.color),),
+                                        duration: const Duration(seconds: 5),
+                                      ),
+                                    );
+                                  } else if(result != null) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext c) {
+                                        return ErrorDialog(
+                                          title: 'Erro ao exportar arquivo',
+                                          message: result.toString()
+                                        );
+                                      }
+                                    );
+                                  }
                                 }
                               );
                             }
