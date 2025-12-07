@@ -84,7 +84,7 @@ class _Spreadsheet extends State<Spreadsheet> with AutomaticKeepAliveClientMixin
 
     return IntrinsicHeight(
       child: Padding(
-        padding: EdgeInsetsGeometry.all(20),
+        padding: const EdgeInsetsGeometry.all(20),
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(

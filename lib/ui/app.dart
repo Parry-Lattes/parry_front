@@ -27,7 +27,7 @@ class App extends StatelessWidget{
       home: ScreenLogin(),
       routes: <String, WidgetBuilder> {
         '/login': (BuildContext c) => ScreenLogin(),
-        '/app': (BuildContext c) => RailApp(),
+        '/app': (BuildContext c) => const RailApp(),
       },
       onGenerateRoute: (settings) {
         final arguments = settings.arguments as Map<String,dynamic>;
