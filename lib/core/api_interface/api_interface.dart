@@ -198,7 +198,6 @@ abstract class ApiInterface {
    Retorna uma String com o corpo do resultado
    */
   static Future<(String,int)> request_in(String path) async {
-    print(_all_cookies.join(','));
     final response = await client.get(
       _get_url(path),
       headers: header_request
