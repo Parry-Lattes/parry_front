@@ -22,7 +22,7 @@ class UploadData {
   Future<bool> send_data(String data) async {
     final response = await ApiInterface.client.post(uri, headers: ApiInterface.header_request, body: data, encoding: utf8);
 
-    if(response.statusCode == 200) {
+    if(response.statusCode == 201) {
       return true;
     } else if(response.statusCode == 401) {
       throw UnauthorizedRequest();

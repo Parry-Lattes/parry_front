@@ -48,7 +48,7 @@ class ReviewData extends StatelessWidget {
               //depois de tentar deletar, tentamos enviar a pessoa
               if(await upload_people.send_data(people.json)) {
                 //se tudo der certo, fazemos o upload do curriculo
-                ApiInterface.upload_curriculum(curriculum.id_lattes);
+                ApiInterface.upload_curriculum(curriculum.id_lattes).send_data(curriculum.json);
               }
             }
           });
