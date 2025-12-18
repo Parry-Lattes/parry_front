@@ -145,7 +145,7 @@ class _ViewGraphics extends State<ViewGraphics> with AutomaticKeepAliveClientMix
                   Expanded(
                     child: SfCircularChart(
                       title: ChartTitle(text: 'Produções por tipo', textStyle: TextStyle(color: ColorsApp.grey1.color,fontWeight: FontWeight.bold)),
-                      legend: Legend(isVisible: true,textStyle: TextStyle(color: ColorsApp.grey1.color)),
+                      legend: Legend(isVisible: true, textStyle: TextStyle(color: ColorsApp.grey1.color)),
                       series: <PieSeries<ProductionsByType,String>>[
                         PieSeries(
                           explode: true,
@@ -306,7 +306,17 @@ class _ViewGraphics extends State<ViewGraphics> with AutomaticKeepAliveClientMix
             color: ColorsApp.grey1.color,
           ),
         )
-        :_make_graphics()
+        : widget.controller.numbers_totais.$1 >= 1
+          ? _make_graphics()
+          : Text(
+            'Não existem dados para plotar gráficos',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 70,
+              color: ColorsApp.grey1.color,
+              fontWeight: FontWeight.bold
+            ),
+          )
     );
   }
 }

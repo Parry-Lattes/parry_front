@@ -61,8 +61,8 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
       )
       :Center(
         child: SizedBox(
-          width: 400,
-          height: 200,
+          width: 600,
+          height: 300,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 20,
@@ -77,14 +77,23 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
                       Text(
                         'Total de currículos cadastrados:',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           color: ColorsApp.grey1.color,
                         ),
                       ),
-                      Text(
+                      widget.controller.numbers_totais.$1 >= 1
+                      ?Text(
                         '${widget.controller.numbers_totais.$1}',
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: 60,
+                          color: ColorsApp.grey1.color,
+                          fontWeight: FontWeight.bold
+                        )
+                      )
+                      :Text(
+                        'Não há dados para mostrar',
+                        style: TextStyle(
+                          fontSize: 20,
                           color: ColorsApp.grey1.color,
                           fontWeight: FontWeight.bold
                         )
@@ -107,14 +116,23 @@ class _ViewNumbersTotais extends State<ViewNumbersTotais> with AutomaticKeepAliv
                       Text(
                         'Total de produções cadastradas:',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           color: ColorsApp.grey1.color
                         ),
                       ),
-                      Text(
+                      widget.controller.numbers_totais.$2 >= 1
+                      ?Text(
                         '${widget.controller.numbers_totais.$2}',
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: 60,
+                          color: ColorsApp.grey1.color,
+                          fontWeight: FontWeight.bold
+                        )
+                      )
+                      :Text(
+                        'Não há dados para mostrar',
+                        style: TextStyle(
+                          fontSize: 20,
                           color: ColorsApp.grey1.color,
                           fontWeight: FontWeight.bold
                         )

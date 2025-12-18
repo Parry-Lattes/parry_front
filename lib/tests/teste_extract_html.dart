@@ -36,7 +36,7 @@ void test_pick_page() async {
   await WebNavigator.init_navigator('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar');
 
   //dar um tempo pra eu poder abrir a pagina
-  await Future.delayed(Duration(seconds: 20));
+  await Future.delayed(const Duration(seconds: 20));
   print('Carregando dados..');
 
   final pages = await WebNavigator.load_pages('Currículo do Sistema de Currículos Lattes');
@@ -53,7 +53,7 @@ void test_pick_lines() async {
   await WebNavigator.init_navigator('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar');
 
   //dar um tempo pra eu poder abrir a pagina
-  await Future.delayed(Duration(seconds: 30));
+  await Future.delayed(const Duration(seconds: 30));
   print('Carregando dados..');
 
   final pages = await WebNavigator.load_pages('Currículo do Sistema de Currículos Lattes');

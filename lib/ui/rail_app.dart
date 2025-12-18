@@ -48,7 +48,14 @@ class _RailApp extends State<RailApp> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.menu)),
+        leading: SizedBox(
+          height: 40,
+          width: 40,
+          child: Padding(
+            padding: const EdgeInsetsGeometry.all(5),
+            child: Image.asset('./assets/imagens/logo.png')
+          ),
+        ),
         leadingWidth: _width_left,
         actions: _actions_buttons[_index],
         //foregroundColor: ColorsApp.grey1.color,

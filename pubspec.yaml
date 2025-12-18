@@ -43,6 +43,7 @@ dependencies:
   syncfusion_flutter_charts: ^31.2.12
   flutter_dotenv: ^6.0.0
   csv: ^6.0.0
+  xml: ^6.6.1
 
 dev_dependencies:
   flutter_test:
